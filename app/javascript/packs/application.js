@@ -8,8 +8,6 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 require("@fortawesome/fontawesome-free/js/all")
-require("jquery")
-require("popper.js/dist/popper")
 require("bootstrap/dist/js/bootstrap")
 
 // Uncomment to copy all static images under ../images to the output folder and reference
