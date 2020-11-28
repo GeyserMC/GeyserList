@@ -1,0 +1,36 @@
+<% content_for :extra_head do %>
+  <title>Register with Discord - GeyserList</title>
+  <meta property="og:title" content="Register with Discord - GeyserList" />
+  <meta property="og:description" content="Register with Discord for GeyserList" />
+  <meta name="description" content="Register with Discord for Memerator" itemprop="description">
+  <meta property="twitter:title" content="Register with Discord - GeyserList">
+<% end %>
+
+<form class="form-signin" method="post" action="/registration/complete">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <div class="text-center mb-4">
+    <img class="mb-4" src="https://img.rory.cat/kpGxsNTf.png" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Register with Discord</h1>
+    <p>You're almost ready, now set a username!</p>
+  </div>
+
+  <div class="form-label-group">
+    <input type="text" name="username" id="username" class="form-control" placeholder="Username" required autofocus>
+    <label for="username">Username</label>
+  </div>
+
+  <br />
+  <button type="submit" class="btn btn-lg btn-primary btn-block" id="button1">Complete sign up</button>
+  <br />
+
+  <p class="mt-5 mb-3 text-muted text-center">Copyright &copy; GeyserMC 2019 - <%= Time.now.year %></p>
+</form>
+
+<script>
+    window.onload = function () {
+        $('form').submit(function(){
+            $(this).find('button[type=submit]').prop('disabled', true);
+            $(this).find('button[type=submit]').html('Setting your account up...');
+        });
+    }
+</script>

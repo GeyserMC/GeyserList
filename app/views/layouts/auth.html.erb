@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <meta property="og:site_name" content="Memerator" />
+  <meta property="og:url" content="<%= request.url %>" />
+  <meta property="twitter:site" content="GeyserList">
+  <title>Authentication - GeyserList</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= yield :extra_head %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+
+<body>
+<%= render 'layouts/flash' %>
+<%= yield %>
+</body>
+</html>
