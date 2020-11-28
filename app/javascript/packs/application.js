@@ -8,7 +8,7 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 require("@fortawesome/fontawesome-free/js/all")
-require("jquery/dist/jquery")
+require("jquery")
 require("popper.js/dist/popper")
 require("bootstrap/dist/js/bootstrap")
 
