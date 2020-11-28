@@ -15,3 +15,8 @@
  *= require_tree .
  *= require_self
  */
+
+a.deco-none {
+	text-decoration: none !important;
+	color: unset;
+}

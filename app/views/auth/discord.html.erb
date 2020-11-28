@@ -2,14 +2,14 @@
   <title>Register with Discord - GeyserList</title>
   <meta property="og:title" content="Register with Discord - GeyserList" />
   <meta property="og:description" content="Register with Discord for GeyserList" />
-  <meta name="description" content="Register with Discord for Memerator" itemprop="description">
+  <meta name="description" content="Register with Discord for GeyserList" itemprop="description">
   <meta property="twitter:title" content="Register with Discord - GeyserList">
 <% end %>
 
 <form class="form-signin" method="post" action="/registration/complete">
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
   <div class="text-center mb-4">
-    <img class="mb-4" src="https://img.rory.cat/kpGxsNTf.png" alt="" width="72" height="72">
+    <%= image_tag "icon.png", class: "mb-4", alt: "Geyser Logo", width: "72", height: "72" %>
     <h1 class="h3 mb-3 font-weight-normal">Register with Discord</h1>
     <p>You're almost ready, now set a username!</p>
   </div>
