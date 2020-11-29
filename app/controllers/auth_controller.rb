@@ -7,6 +7,13 @@ class AuthController < ApplicationController
     # Encode current URL
     url = request.base_url
     el = URI.encode_www_form_component(url)
+    # If there's an error
+    if !params['error_description'].blank?
+      flash[:error] = params['error_description']
+      redirect_to '/login'
+      return
+    end
+
     # If there's no code parameter
     if params['code'].nil?
       redirect_to "https://discord.com/api/oauth2/authorize?client_id=781715071134072832&redirect_uri=#{el}%2Flogin/discord&response_type=code&scope=identify"
