@@ -28,7 +28,12 @@ a.deco-none {
 	border-color: $blurple;
 
 	&:focus, &:active {
-		background-color: lighen($blurple, 5%);
-		border-color: lighen($blurple, 5%);
+		background-color: lighten($blurple, 5%);
+		border-color: lighten($blurple, 5%);
 	}
+
+  &:hover {
+    background-color: darken($blurple, 5%);
+    border-color: darken($blurple, 5%);
+  }
 }
