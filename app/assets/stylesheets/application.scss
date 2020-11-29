@@ -20,3 +20,15 @@ a.deco-none {
 	text-decoration: none !important;
 	color: unset;
 }
+
+.btn.btn-discord {
+	$blurple: #7289DA;
+
+	background-color: $blurple;
+	border-color: $blurple;
+
+	&:focus, &:active {
+		background-color: lighen($blurple, 5%);
+		border-color: lighen($blurple, 5%);
+	}
+}
