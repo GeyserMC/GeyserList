@@ -24,7 +24,11 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
+              <% if session[:id] %>
+                <%= link_to "Log Out", "/logout", class: "nav-link" %>
+              <% else %>
+                <%= link_to "Login", "/login", class: "nav-link" %>
+              <% end %>
             </li>
           </ul>
         </div>

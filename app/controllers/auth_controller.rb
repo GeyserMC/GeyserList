@@ -107,4 +107,10 @@ class AuthController < ApplicationController
 
     redirect_to '/'
   end
+
+  def logout
+    reset_session
+
+    redirect_to "/"
+  end
 end

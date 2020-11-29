@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   get 'login', to: 'auth#login'
   get 'login/discord', to: 'auth#discord'
   post 'registration/complete', to: 'auth#register'
+  get 'logout', to: 'auth#logout'
 end
