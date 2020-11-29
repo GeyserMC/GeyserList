@@ -21,19 +21,25 @@ a.deco-none {
 	color: unset;
 }
 
-.btn.btn-discord {
-	$blurple: #7289DA;
+$brands: ("discord": #7289DA, "google": #34A853, "apple": #555555, "github": #24292E);
 
-	background-color: $blurple;
-	border-color: $blurple;
-
-	&:focus, &:active {
-		background-color: lighten($blurple, 5%);
-		border-color: lighten($blurple, 5%);
+@each $brand, $color in $brands {
+	.btn.btn-#{$brand} {	
+		background-color: $color;
+		border-color: $color;
+	
+		&:focus, &:active {
+			background-color: lighten($color, 5%);
+			border-color: lighten($color, 5%);
+		}
+	
+		&:hover {
+			background-color: darken($color, 5%);
+			border-color: darken($color, 5%);
+		}
 	}
+}
 
-	&:hover {
-		background-color: darken($blurple, 5%);
-		border-color: darken($blurple, 5%);
-	}
+hr.small-hr {
+	width: 10%;
 }
