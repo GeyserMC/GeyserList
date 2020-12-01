@@ -2,8 +2,7 @@
   <%= meta_tags title: "Login", description: "Login to GeyserList" %>
 <% end %>
 
-<form class="form-signin" method="post" action="/authenticate">
-  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+<div class="form-signin">
   <div class="text-center mb-4">
     <%= image_tag "icon.png", class: "mb-4", alt: "Geyser Logo", width: "72", height: "72" %>
     <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
@@ -20,4 +19,4 @@
   <hr class="small-hr">
   <%= link_to (button_tag raw('<i class="fas fa-times-circle"></i> Cancel'), class: 'btn btn-lg btn-block btn-danger'), "/", class: 'text-decoration-none' %>
   <p class="mt-5 mb-3 text-muted text-center">Copyright &copy; GeyserMC 2019 - <%= Time.now.year %></p>
-</form>
+</div>
