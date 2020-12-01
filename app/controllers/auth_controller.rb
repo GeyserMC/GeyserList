@@ -60,6 +60,9 @@ class AuthController < ApplicationController
       session[:registration] = true
       session[:kind] = 'discord'
       session[:data] = data['id']
+      respond_to do |format|
+        format.html { render 'register' }
+      end
       return
     else
       user = User.find_by(id: integration.userid)
@@ -73,6 +76,55 @@ class AuthController < ApplicationController
     redirect_to session[:page] || '/'
   end
 
+  def google
+    el = URI.encode_www_form_component(request.base_url)
+    if params['code'].nil?
+      redirect_to "https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=#{el}/login/google&prompt=consent&response_type=code&client_id=482524144732-7spa5fgljc4tohbi9ohll7cdfiv1t7t3.apps.googleusercontent.com&scope=email&access_type=offline"
+      return
+    end
+
+    data = {
+      "code": params['code'],
+      "redirect_uri": "#{request.base_url}/login/google",
+      "client_id": '482524144732-7spa5fgljc4tohbi9ohll7cdfiv1t7t3.apps.googleusercontent.com',
+      "client_secret": Rails.application.credentials.google,
+      "scope": 'email',
+      "grant_type": 'authorization_code'
+    }
+
+    begin
+      google = JSON.parse(RestClient.post("https://www.googleapis.com/oauth2/v4/token?#{data.to_query}", {}, 'content-type': 'application/x-www-form-urlencoded'))
+    rescue RestClient::BadRequest => e
+      flash[:invalid] = "Session token expired. Try logging in again!"
+      redirect_to '/login'
+      return
+    end
+
+    token = "Bearer #{google['access_token']}"
+
+    email_data = JSON.parse(RestClient.get('https://www.googleapis.com/oauth2/v1/userinfo?alt=json', Authorization: token))
+
+    integration = Integration.find_by(kind: 'google', data: email_data['email'])
+    if integration.nil?
+      # Make new account
+      session[:registration] = true
+      session[:kind] = 'google'
+      session[:data] = email_data['email']
+      respond_to do |format|
+        format.html { render 'register' }
+      end
+    else
+      user = User.find_by(id: integration.userid)
+      token = random_string(25)
+      user.access_token = token
+      user.save!
+      session[:id] = user.id
+      session[:token] = token
+
+      redirect_to session[:page] || '/'
+    end
+  end
+
   def register
     unless session[:registration]
       redirect_to '/login'
@@ -80,16 +132,20 @@ class AuthController < ApplicationController
       return
     end
 
+    user = User.find_by(username: params['username'])
+
     if params['username'] == ''
       flash[:cause_profile] = 'This username contains literally nothing! Try again!'
+    elsif !user.nil?
+      flash[:cause_profile] = 'This username is in use!'
     elsif params['username'].include?(' ')
-      flash[:cause_profile] = 'This username contains a space!'
+      flash[:cause_profile] = 'Usernames cannot contain spaces!'
     elsif params['username'].to_i.to_s == params['username'].to_s
-      flash[:cause_profile] = 'This username contains only numbers!'
+      flash[:cause_profile] = 'Usernames cannot be only numbers!'
     elsif params['username'].gsub(/[^0-9A-Za-z._]/, '') != params['username']
-      flash[:cause_profile] = 'This username contains special characters!'
+      flash[:cause_profile] = 'Usernames can only contain alphanumeric, period and underscore characters.'
     elsif params['username'].length > 32
-      flash[:cause_profile] = 'This username is too long!'
+      flash[:cause_profile] = 'Usernames cannot be longer than 32 characters in length!'
     end
 
     if flash[:cause_profile]
