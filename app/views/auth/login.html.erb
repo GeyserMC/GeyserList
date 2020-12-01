@@ -1,9 +1,5 @@
 <% content_for :extra_head do %>
-  <title>Login - GeyserList</title>
-  <meta property="og:title" content="Login - GeyserList" />
-  <meta property="og:description" content="Login to GeyserList" />
-  <meta name="description" content="Login to GeyserList" itemprop="description">
-  <meta property="twitter:title" content="Login - GeyserList">
+  <%= meta_tags title: "Login", description: "Login to GeyserList" %>
 <% end %>
 
 <form class="form-signin" method="post" action="/authenticate">
