@@ -170,6 +170,56 @@ class AuthController < ApplicationController
     end
   end
 
+  def github
+    if params['code'].nil?
+      data = {
+        client_id: "008045a940df3dee151f",
+        redirect_uri: request.url,
+        allow_signup: true
+      }
+
+      redirect_to "https://github.com/login/oauth/authorize?" + URI.encode_www_form(data)
+      return
+    end
+
+    data = {
+      code: params['code'],
+      redirect_uri: request.url,
+      client_id: '008045a940df3dee151f',
+      client_secret: Rails.application.credentials.github
+    }
+
+    github = JSON.parse(RestClient.post("https://github.com/login/oauth/access_token",
+                                        data,
+                                        'content-type': 'application/x-www-form-urlencoded',
+                                        Accept: :json
+    ))
+
+    token = "token #{github['access_token']}"
+
+    user_data = JSON.parse(RestClient.get('https://api.github.com/user', Authorization: token))
+
+    integration = Integration.find_by(kind: 'github', data: user_data['id'])
+    if integration.nil?
+      # Make new account
+      session[:registration] = true
+      session[:kind] = 'github'
+      session[:data] = user_data['id']
+      respond_to do |format|
+        format.html { render 'register' }
+      end
+    else
+      user = User.find_by(id: integration.userid)
+      token = random_string(25)
+      user.access_token = token
+      user.save!
+      session[:id] = user.id
+      session[:token] = token
+
+      redirect_to session[:page] || '/'
+    end
+  end
+
   def register
     unless session[:registration]
       redirect_to '/login'

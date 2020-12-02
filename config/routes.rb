@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     get 'google', to: 'auth#google'
     get 'apple', to: 'auth#login_apple'
     post 'apple', to: 'auth#apple'
+    get 'github', to: 'auth#github'
   end
   post 'registration/complete', to: 'auth#register'
   get 'logout', to: 'auth#logout'
