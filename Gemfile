@@ -31,6 +31,9 @@ gem 'rest-client'
 # Use CryptKeeper for encryption
 gem 'crypt_keeper'
 
+# To save multiple headaches with Sign in with Apple
+gem 'apple_auth'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 

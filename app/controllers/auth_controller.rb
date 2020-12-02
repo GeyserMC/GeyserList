@@ -1,4 +1,7 @@
 class AuthController < ApplicationController
+  # Apple obviously does not provide CSRF, disable it for this method
+  skip_before_action :verify_authenticity_token, :only => [:apple]
+
   def login
 
   end
@@ -110,6 +113,48 @@ class AuthController < ApplicationController
       session[:registration] = true
       session[:kind] = 'google'
       session[:data] = email_data['email']
+      respond_to do |format|
+        format.html { render 'register' }
+      end
+    else
+      user = User.find_by(id: integration.userid)
+      token = random_string(25)
+      user.access_token = token
+      user.save!
+      session[:id] = user.id
+      session[:token] = token
+
+      redirect_to session[:page] || '/'
+    end
+  end
+
+  def login_apple
+    data = {
+      client_id: "org.geysermc.servers.signin",
+      redirect_uri: request.url,
+      response_type: "code id_token",
+      scope: "email",
+      response_mode: "form_post" # form post is required if email is requested
+    }
+
+    redirect_to "https://appleid.apple.com/auth/authorize?" + URI.encode_www_form(data)
+  end
+
+  def apple
+    data = JSON.parse(Base64.decode64(params['id_token'].split('.')[1]))
+
+    user_id = data['sub']
+    valid_jwt_token = params['id_token']
+
+    auth = AppleAuth::UserIdentity.new(user_id, valid_jwt_token).validate!
+    email = auth[:email]
+
+    integration = Integration.find_by(kind: 'apple', data: email)
+    if integration.nil?
+      # Make new account
+      session[:registration] = true
+      session[:kind] = 'apple'
+      session[:data] = email
       respond_to do |format|
         format.html { render 'register' }
       end
