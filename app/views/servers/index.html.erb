@@ -26,6 +26,7 @@
               <input type="text" class="form-control" id="input-ip<%= i %>" placeholder="Server IP" aria-label="Server IP" aria-describedby="button-ip<%= i %>" value="<%= server.bedrock_ip %>" readonly>
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" data-clipboard-action="copy" data-clipboard-target="#input-ip<%= i %>" type="button" id="button-ip<%= i %>"><i class="far fa-clipboard"></i></button>
+                <button class="btn btn-outline-secondary" type="button" id="button-play<%= i %>" onclick="addServer('<%= server.name %>', '<%= server.bedrock_ip %>')"><i class="fas fa-play"></i></button>
               </div>
             </div>
           </td>

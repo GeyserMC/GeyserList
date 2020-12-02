@@ -47,4 +47,8 @@ document.addEventListener("turbolinks:load", function() {
     setTooltip(e, 'Failed!');
     hideTooltip(e);
   });
+
+  window.addServer = function(name, ip) {
+    window.location = "minecraft://?addExternalServer=" + encodeURIComponent(name) + "|" + ip
+  }
 })
