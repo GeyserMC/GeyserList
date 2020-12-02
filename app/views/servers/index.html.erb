@@ -17,34 +17,22 @@
         </tr>
       </thead>
       <tbody>
+      <% @servers.each_with_index do |server, i| %>
         <tr>
-          <td scope="row" class="align-middle">1</td>
-          <td class="align-middle"><a href='/servers/1' class="text-decoration-none">Test Server</a></td>
+          <td scope="row" class="align-middle"><%= i+1 %></td>
+          <td class="align-middle"><a href='/servers/<%= server.id %>' class="text-decoration-none"><%= server.name %></a></td>
           <td class="align-middle">
             <div class="input-group">
-              <input type="text" class="form-control" id="input-ip1" placeholder="Server IP" aria-label="Server IP" aria-describedby="button-ip1" value="test.geysermc.org" readonly>
+              <input type="text" class="form-control" id="input-ip<%= i %>" placeholder="Server IP" aria-label="Server IP" aria-describedby="button-ip<%= i %>" value="<%= server.bedrock_ip %>" readonly>
               <div class="input-group-append">
-                <button class="btn btn-outline-secondary" data-clipboard-action="copy" data-clipboard-target="#input-ip1" type="button" id="button-ip1"><i class="far fa-clipboard"></i></button>
+                <button class="btn btn-outline-secondary" data-clipboard-action="copy" data-clipboard-target="#input-ip<%= i %>" type="button" id="button-ip<%= i %>"><i class="far fa-clipboard"></i></button>
               </div>
             </div>
           </td>
           <td class="align-middle text-center">0/100</td>
           <td class="align-middle text-center"><h4 class="mb-0"><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="As of 10:00 28/11/2020">Online</span></h4></td>
         </tr>
-        <tr>
-          <td scope="row" class="align-middle">2</td>
-          <td class="align-middle"><a href='/servers/2' class="text-decoration-none">Test Server 2</a></td>
-          <td class="align-middle">
-            <div class="input-group">
-              <input type="text" class="form-control" id="input-ip2" placeholder="Server IP" aria-label="Server IP" aria-describedby="button-ip2" value="test2.geysermc.org" readonly>
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" data-clipboard-action="copy" data-clipboard-target="#input-ip2" type="button" id="button-ip2"><i class="far fa-clipboard"></i></button>
-              </div>
-            </div>
-          </td>
-          <td class="align-middle text-center">0/100</td>
-          <td class="align-middle text-center"><h4 class="mb-0"><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="As of 10:00 28/11/2020">Offline</span></h4></td>
-        </tr>
+      <% end %>
       </tbody>
     </table>
   </div>
