@@ -10,6 +10,8 @@ class ServersController < ApplicationController
       respond_to do |format|
         format.html { render file: "#{Rails.root}/public/404.html", status: 404, :layout => false }
       end
+    else
+      @owner = User.find_by(id: @server.owner)
     end
   end
 end

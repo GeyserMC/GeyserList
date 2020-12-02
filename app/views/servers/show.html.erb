@@ -1,5 +1,69 @@
 <section class="section">
-  <div class="container">      
-    Server info goes here...
+  <div class="container">
+    <br>      
+    <h1><%= @server.name %></h1>
+    
+    <div class="row">
+      <div class="col col-12 col-md-auto mr-md-1 mb-2 mb-md-0">
+        <div class="card">
+          <div class="card-header text-white bg-primary">
+            Server Infomation
+          </div>
+          <div class="table-responsive">
+            <table class="table mb-0">
+              <tbody>
+                <tr>
+                  <th scope="row">Owner</th>
+                  <td><%= @owner.username %></td>
+                </tr>
+                <tr>
+                  <th scope="row">Bedrock IP</th>
+                  <td>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="input-bedrock-ip" placeholder="Server IP" aria-label="Server IP" aria-describedby="button-bedrock-ip" value="<%= @server.bedrock_ip %>" readonly>
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" data-clipboard-action="copy" data-clipboard-target="#input-bedrock-ip" type="button" id="button-bedrock-ip"><i class="far fa-clipboard"></i></button>
+                        <button class="btn btn-outline-secondary" type="button" id="button-play" onclick="addServer('<%= @server.name %>', '<%= @server.bedrock_ip %>')"><i class="fas fa-play"></i></button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Java IP</th>
+                  <td>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="input-java-ip" placeholder="Server IP" aria-label="Server IP" aria-describedby="button-java-ip" value="<%= @server.java_ip %>" readonly>
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" data-clipboard-action="copy" data-clipboard-target="#input-java-ip" type="button" id="button-java-ip"><i class="far fa-clipboard"></i></button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Discord</th>
+                  <td><%= link_to @server.discord, @server.discord %></td>
+                </tr>
+                <tr>
+                  <th scope="row">Website</th>
+                  <td><%= link_to @server.website, @server.website %></td>
+                </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col ml-md-1">
+        <div class="card">
+          <div class="card-header text-white bg-primary">
+            Description
+          </div>
+          <div class="card-body">
+            <% if !@server.banner.blank? %>
+            <img src="<%= @server.banner %>" alt="Server Banner" />
+            <% end %>
+            <%= @server.description %>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
