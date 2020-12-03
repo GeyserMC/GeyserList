@@ -1,6 +1,10 @@
 {
   "name": "GeyserList",
   "private": true,
+  "scripts": {
+    "update": "bundle install && yarn --install && rake assets:precompile",
+    "start": "rails server"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@rails/actioncable": "^6.0.0",

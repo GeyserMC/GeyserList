@@ -1,6 +1,6 @@
 class ServersController < ApplicationController
   def index
-    @servers = Server.all.limit(100)
+    @servers = Server.all.select("id, name, bedrock_ip").limit(100)
   end
 
   def show
