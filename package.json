@@ -2,8 +2,7 @@
   "name": "GeyserList",
   "private": true,
   "scripts": {
-    "update": "bundle install && yarn --install && rake assets:precompile",
-    "start": "rails server"
+    "update": "bundle install && yarn --install && RAILS_ENV=production rake assets:precompile"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
