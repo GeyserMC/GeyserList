@@ -13,4 +13,6 @@ Rails.application.routes.draw do
   end
   post 'registration/complete', to: 'auth#register'
   get 'logout', to: 'auth#logout'
+
+  get 'api/v1/server/:id', to: 'api#get_server'
 end
