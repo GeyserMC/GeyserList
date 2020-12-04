@@ -20,7 +20,7 @@
         <tbody>
         <% @servers.each_with_index do |server, i| %>
           <tr>
-            <td scope="row" class="align-middle"><%= i+1 %></td>
+            <td class="align-middle"><%= i+1 %></td>
             <td class="align-middle"><a href='/servers/<%= server.id %>' class="text-decoration-none"><%= server.name %></a></td>
             <td class="align-middle text-center">
               <div class="input-group d-none d-md-flex">

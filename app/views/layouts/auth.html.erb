@@ -1,20 +1,4 @@
-<!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns#">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
-  <meta property="og:site_name" content="GeyserList" />
-  <meta property="og:url" content="<%= request.url %>" />
-  <meta property="twitter:site" content="GeyserList">
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-  <%= yield :extra_head %>
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-</head>
-
-<body class="auth">
-<%= render 'layouts/flash' %>
-<%= yield %>
-</body>
-</html>
+<%= render "layouts/includes/header", title: "Auth", body_class: "auth" %>
+  <%= render 'layouts/flash' %>
+  <%= yield %>
+<%= render "layouts/includes/footer" %>
