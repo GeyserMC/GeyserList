@@ -5,36 +5,46 @@
       <p class="lead">Some 10/10 content?</p>
     </div>
   </div>
-  <div class="container">      
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">Rank</th>
-          <th scope="col">Name</th>
-          <th scope="col">Geyser IP</th>
-          <th scope="col" class="text-center">Players</th>
-          <th scope="col" class="text-center">Status</th>
-        </tr>
-      </thead>
-      <tbody>
-      <% @servers.each_with_index do |server, i| %>
-        <tr>
-          <td scope="row" class="align-middle"><%= i+1 %></td>
-          <td class="align-middle"><a href='/servers/<%= server.id %>' class="text-decoration-none"><%= server.name %></a></td>
-          <td class="align-middle">
-            <div class="input-group">
-              <input type="text" class="form-control" id="input-ip<%= i %>" placeholder="Server IP" aria-label="Server IP" aria-describedby="button-ip<%= i %>" value="<%= server.bedrock_ip %>" readonly>
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" data-clipboard-action="copy" data-clipboard-target="#input-ip<%= i %>" type="button" id="button-ip<%= i %>"><i class="far fa-clipboard"></i></button>
-                <button class="btn btn-outline-secondary" type="button" id="button-play<%= i %>" onclick="addServer('<%= server.name %>', '<%= server.bedrock_ip %>')"><i class="fas fa-play"></i></button>
+  <div class="container">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Rank</th>
+            <th scope="col">Name</th>
+            <th scope="col">Geyser IP</th>
+            <th scope="col" class="text-center">Players</th>
+            <th scope="col" class="text-center">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @servers.each_with_index do |server, i| %>
+          <tr>
+            <td scope="row" class="align-middle"><%= i+1 %></td>
+            <td class="align-middle"><a href='/servers/<%= server.id %>' class="text-decoration-none"><%= server.name %></a></td>
+            <td class="align-middle text-center">
+              <div class="input-group d-none d-md-flex">
+                <input type="text" class="form-control w-auto" id="input-ip<%= i %>-md" placeholder="Server IP" aria-label="Server IP" aria-describedby="button-ip<%= i %>-md" value="<%= server.bedrock_ip %>" readonly>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" data-clipboard-action="copy" data-clipboard-target="#input-ip<%= i %>-md" type="button" id="button-ip<%= i %>-md"><i class="far fa-clipboard"></i></button>
+                  <button class="btn btn-outline-secondary" type="button" id="button-play<%= i %>-md" onclick="addServer('<%= server.name %>', '<%= server.bedrock_ip %>')"><i class="fas fa-play"></i></button>
+                </div>
               </div>
-            </div>
-          </td>
-          <td class="align-middle text-center">0/100</td>
-          <td class="align-middle text-center"><h4 class="mb-0"><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="As of 10:00 28/11/2020">Online</span></h4></td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
+              
+              <div class="input-group d-md-none">
+                <input type="text" class="form-control w-auto" id="input-ip<%= i %>-sm" placeholder="Server IP" aria-label="Server IP" aria-describedby="button-ip<%= i %>-sm" value="<%= server.bedrock_ip %>" readonly>
+              </div>
+              <div class="btn-group mt-1 d-md-none">
+                <button class="btn btn-outline-secondary" data-clipboard-action="copy" data-clipboard-target="#input-ip<%= i %>-sm" type="button" id="button-ip<%= i %>-sm"><i class="far fa-clipboard"></i></button>
+                <button class="btn btn-outline-secondary" type="button" id="button-play<%= i %>-sm" onclick="addServer('<%= server.name %>', '<%= server.bedrock_ip %>')"><i class="fas fa-play"></i></button>
+              </div>
+            </td>
+            <td class="align-middle text-center">0/100</td>
+            <td class="align-middle text-center"><h4 class="mb-0"><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="As of 10:00 28/11/2020">Online</span></h4></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>
