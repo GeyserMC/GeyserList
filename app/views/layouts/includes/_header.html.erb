@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-  <meta property="og:site_name" content="<% if !local_assigns[:title].nil? %><%= title %> - <% end %>GeyserList" />
+  <meta property="og:site_name" content="GeyserList" />
   <meta property="og:url" content="<%= request.url %>" />
-  <meta property="twitter:site" content="<% if !local_assigns[:title].nil? %><%= title %> - <% end %>GeyserList">
-  
-  <title><% if !local_assigns[:title].nil? %><%= title %> - <% end %>GeyserList</title>
+  <% unless local_assigns[:title].nil? %>
+    <%= meta_tags title: local_assigns[:title] %>
+  <% end %>
 
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
@@ -20,4 +20,4 @@
   <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 </head>
 
-<body <% if !local_assigns[:body_class].nil? %>class="<%= body_class %>"<% end %>>
+<body <% unless local_assigns[:body_class].nil? %>class="<%= local_assigns[:body_class] %>"<% end %>>
