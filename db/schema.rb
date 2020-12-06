@@ -13,20 +13,20 @@
 ActiveRecord::Schema.define(version: 0) do
 
   create_table "integrations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.integer "userid", null: false
+    t.integer "user_id", null: false
     t.text "kind", null: false
     t.text "data", null: false
   end
 
   create_table "servers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.integer "owner", null: false
+    t.integer "user_id", null: false
     t.text "name", null: false
     t.text "description", null: false
     t.text "banner"
     t.string "java_ip", limit: 32, null: false
     t.string "bedrock_ip", limit: 32, null: false
-    t.text "discord", null: false
-    t.text "website", null: false
+    t.text "discord"
+    t.text "website"
     t.timestamp "created", default: -> { "current_timestamp()" }, null: false
     t.timestamp "updated", default: -> { "current_timestamp()" }, null: false
     t.index ["bedrock_ip"], name: "bedrock_ip", unique: true
@@ -34,10 +34,12 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.text "username", null: false
+    t.string "username", limit: 32, null: false
     t.text "access_token", null: false
     t.timestamp "creation", default: -> { "current_timestamp()" }, null: false
-    t.integer "status", null: false
+    t.integer "status", default: 0, null: false
+    t.index ["id"], name: "id", unique: true
+    t.index ["username"], name: "username", unique: true
   end
 
 end
