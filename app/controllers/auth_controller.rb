@@ -68,7 +68,7 @@ class AuthController < ApplicationController
       end
       return
     else
-      user = User.find_by(id: integration.userid)
+      user = integration.user
       token = random_string(25)
       user.access_token = token
       user.save!
@@ -117,7 +117,7 @@ class AuthController < ApplicationController
         format.html { render 'register' }
       end
     else
-      user = User.find_by(id: integration.userid)
+      user = integration.user
       token = random_string(25)
       user.access_token = token
       user.save!
@@ -159,7 +159,7 @@ class AuthController < ApplicationController
         format.html { render 'register' }
       end
     else
-      user = User.find_by(id: integration.userid)
+      user = integration.user
       token = random_string(25)
       user.access_token = token
       user.save!
@@ -209,7 +209,7 @@ class AuthController < ApplicationController
         format.html { render 'register' }
       end
     else
-      user = User.find_by(id: integration.userid)
+      user = integration.user
       token = random_string(25)
       user.access_token = token
       user.save!
@@ -250,7 +250,7 @@ class AuthController < ApplicationController
 
     User.create(username: params['username'], access_token: random_string(25))
     user = User.find_by(username: params['username'])
-    Integration.create(userid: user.id, kind: session[:kind], data: session[:data])
+    Integration.create(user: user, kind: session[:kind], data: session[:data])
     reset_session
 
     session[:id] = user.id
