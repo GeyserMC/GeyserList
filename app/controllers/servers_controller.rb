@@ -14,4 +14,46 @@ class ServersController < ApplicationController
       @owner = @server.user
     end
   end
+
+  def new
+    unless session[:id]
+      session[:page] = request.url
+      redirect_to '/login'
+      return
+    end
+
+    @server = Server.new
+
+    if flash[:server].nil?
+      flash[:server] = {}
+    end
+  end
+
+  def create
+    unless params[:server][:discord] == ''
+      code = params[:server][:discord].split("discord.gg/").last
+      begin
+        JSON.parse(RestClient.get("https://discord.com/api/invite/#{code}"))
+      rescue RestClient::NotFound, RestClient::TooManyRequests
+        flash[:modal_js] = "Invalid Discord Code!"
+        flash[:server] = params[:server].to_unsafe_h
+        redirect_to '/servers/new'
+        return
+      end
+    end
+
+    # TODO: Validate IPs, website, and remove swears from input.
+
+    server_params = params[:server].to_unsafe_h
+    server_params['user_id'] = session[:id]
+
+    server = Server.create(server_params)
+    if server.valid?
+      redirect_to "/servers/#{server.id}"
+    else
+      flash[:modal_js] = server.errors.full_messages.join("<br>")
+      flash[:server] = params[:server].to_unsafe_h
+      redirect_to '/servers/new'
+    end
+  end
 end

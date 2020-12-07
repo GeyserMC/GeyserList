@@ -1,0 +1,9 @@
+<%= form_with(model: @server) do |f| %>
+  <%= f.text_field(:name, value: flash[:server]['name'], placeholder: "Enter Server Name") %>
+  <%= f.text_area(:description, value: flash[:server]['description'], placeholder: "Your server's description. Markdown supported.", size: "24x6") %>
+  <%= f.text_field(:java_ip, value: flash[:server]['java_ip'], placeholder: "Java Server IP") %>
+  <%= f.text_field(:bedrock_ip, value: flash[:server]['bedrock_ip'], placeholder: "Geyser IP") %>
+  <%= f.text_field(:website, value: flash[:server]['website'], placeholder: "Website (Optional)") %>
+  <%= f.text_field(:discord, value: flash[:server]['discord'], placeholder: "Discord Server Invite (Optional)") %>
+  <%= f.submit "Create" %>
+<% end %>
