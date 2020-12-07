@@ -15,7 +15,7 @@
  *= require_self
  */
 
-$brands: ("discord": #7289DA, "google": #E0492E, "apple": #555555, "github": #24292E);
+$brands: ("discord": #7289DA, "google": #E0492E, "apple": #555555, "github": #24292E, "xbox": #107C10);
 
 @each $brand, $color in $brands {
 	.btn.btn-#{$brand} {	

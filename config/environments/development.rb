@@ -61,5 +61,5 @@ Rails.application.configure do
   # Disabled to fix windows
   #config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.hosts << /[a-z0-9]+\.ngrok\.io/
+  config.hosts << /[a-z0-9\.]+\.ngrok\.io/
 end

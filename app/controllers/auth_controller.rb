@@ -220,6 +220,112 @@ class AuthController < ApplicationController
     end
   end
 
+  def xbox
+    # Encode current URL
+    url = url_for(:only_path => false, :overwrite_params=>nil)
+    el = URI.encode_www_form_component(url)
+
+    # If there's an error
+    if !params['error'].blank?
+      flash[:error] = params['error_description']
+      redirect_to '/login'
+      return
+    end
+
+    # Set the client id, secret and scopes
+    id = 'ca260d22-3665-436b-ba68-c9c29070213c'
+    secret = Rails.application.credentials.xbox
+    scopes = ["Xboxlive.signin"]
+
+    # If there's no code parameter
+    if params['code'].nil?
+      redirect_to "https://login.live.com/oauth20_authorize.srf?client_id=#{id}&response_type=code&approval_prompt=auto&scope=#{scopes.join("+")}&redirect_uri=#{el}"
+      return
+    end
+
+    # Build the data to send to xbox
+    data = {
+      grant_type: "authorization_code",
+      code: params['code'],
+      scope: scopes.join(' '),
+      redirect_uri: url,
+      client_id: id,
+      client_secret: secret
+    }
+
+    # Get the access token
+    access_token = JSON.parse(RestClient.post("https://login.live.com/oauth20_token.srf",
+                                        data,
+                                        'content-type': 'application/x-www-form-urlencoded',
+                                        Accept: :json
+    ))
+
+    data = {
+      RelyingParty: "http://auth.xboxlive.com",
+      TokenType: "JWT",
+      Properties: {
+          AuthMethod: "RPS",
+          SiteName: "user.auth.xboxlive.com",
+          RpsTicket: "d=#{access_token['access_token']}"
+      },
+    }
+
+    # Get the user token
+    user_token = JSON.parse(RestClient.post("https://user.auth.xboxlive.com/user/authenticate",
+                                        data.to_json,
+                                        'x-xbl-contract-version': '1',
+                                        content_type: :json,
+                                        Accept: :json
+    ))
+
+    data = {
+      RelyingParty: "http://xboxlive.com",
+      TokenType: "JWT",
+      Properties: {
+          UserTokens: [user_token['Token']],
+          SandboxId: "RETAIL",
+      },
+    }
+
+    # Get the final xsts token
+    xsts_token = JSON.parse(RestClient.post("https://xsts.auth.xboxlive.com/xsts/authorize",
+                                        data.to_json,
+                                        'x-xbl-contract-version': '1',
+                                        content_type: :json,
+                                        Accept: :json
+    ))
+
+    # Get the final xuid
+    user_xuid = xsts_token['DisplayClaims']['xui'][0]['xid'].to_i
+
+    integration = Integration.find_by(kind: 'xbox', data: user_xuid)
+    if integration.nil?
+      # Make new account
+      session[:registration] = true
+      session[:kind] = 'xbox'
+      session[:data] = user_xuid
+      respond_to do |format|
+        format.html { render 'register' }
+      end
+    else
+      user = integration.user
+      token = random_string(25)
+      user.access_token = token
+      user.save!
+      session[:id] = user.id
+      session[:token] = token
+
+      redirect_to session[:page] || '/'
+    end
+  rescue RestClient::Exception => e
+    if e.response.body.blank?
+      flash[:error] = "An error #{e.response.code} occured while trying to log you in. Try logging in again!"
+    else
+      flash[:error] = JSON.parse(e.response.body)['error_description']
+    end
+    redirect_to '/login'
+  end
+
   def register
     unless session[:registration]
       redirect_to '/login'

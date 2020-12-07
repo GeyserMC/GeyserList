@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     get 'apple', to: 'auth#login_apple'
     post 'apple', to: 'auth#apple'
     get 'github', to: 'auth#github'
+    get 'xbox', to: 'auth#xbox'
   end
   post 'registration/complete', to: 'auth#register'
   get 'logout', to: 'auth#logout'
