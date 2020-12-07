@@ -11,8 +11,8 @@ class AuthController < ApplicationController
     url = request.base_url
     el = URI.encode_www_form_component(url)
     # If there's an error
-    if !params['error_description'].blank?
-      flash[:error] = params['error_description']
+    unless params['error_description'].blank?
+      flash[:modal] = params['error_description']
       redirect_to '/login'
       return
     end
@@ -52,7 +52,7 @@ class AuthController < ApplicationController
     begin
       data = JSON.parse(RestClient.get('https://discord.com/api/v6/users/@me', Authorization: "Bearer #{bob['access_token']}"))
     rescue RestClient::Unauthorized
-      flash[:invalid] = "Session token expired. Try logging in again!"
+      flash[:modal] = "Session token expired. Try logging in again!"
       redirect_to '/login'
       return
     end
@@ -98,7 +98,7 @@ class AuthController < ApplicationController
     begin
       google = JSON.parse(RestClient.post("https://www.googleapis.com/oauth2/v4/token?#{data.to_query}", {}, 'content-type': 'application/x-www-form-urlencoded'))
     rescue RestClient::BadRequest => e
-      flash[:invalid] = "Session token expired. Try logging in again!"
+      flash[:modal] = "Session token expired. Try logging in again!"
       redirect_to '/login'
       return
     end
@@ -223,27 +223,27 @@ class AuthController < ApplicationController
   def register
     unless session[:registration]
       redirect_to '/login'
-      flash[:bruh] = "You aren't registering."
+      flash[:modal] = "You aren't registering."
       return
     end
 
     user = User.find_by(username: params['username'])
 
     if params['username'] == ''
-      flash[:cause_profile] = 'This username contains literally nothing! Try again!'
+      flash[:modal] = 'This username contains literally nothing! Try again!'
     elsif !user.nil?
-      flash[:cause_profile] = 'This username is in use!'
+      flash[:modal] = 'This username is in use!'
     elsif params['username'].include?(' ')
-      flash[:cause_profile] = 'Usernames cannot contain spaces!'
+      flash[:modal] = 'Usernames cannot contain spaces!'
     elsif params['username'].to_i.to_s == params['username'].to_s
-      flash[:cause_profile] = 'Usernames cannot be only numbers!'
+      flash[:modal] = 'Usernames cannot be only numbers!'
     elsif params['username'].gsub(/[^0-9A-Za-z._]/, '') != params['username']
-      flash[:cause_profile] = 'Usernames can only contain alphanumeric, period and underscore characters.'
+      flash[:modal] = 'Usernames can only contain alphanumeric, period and underscore characters.'
     elsif params['username'].length > 32
-      flash[:cause_profile] = 'Usernames cannot be longer than 32 characters in length!'
+      flash[:modal] = 'Usernames cannot be longer than 32 characters in length!'
     end
 
-    if flash[:cause_profile]
+    if flash[:modal]
       redirect_to '/login'
       return
     end

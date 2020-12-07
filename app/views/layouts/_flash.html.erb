@@ -1,6 +1,5 @@
 <% flash.each do |message_type, message| %>
-  <% next if message_type.to_s == "scroll_to" %>
-  <% next if message_type.to_s.start_with?("no_modal_") %>
+  <% next unless message_type.to_s.start_with? "modal" %>
   <%=
     o = [('a'..'z'), ('A'..'Z')].map(&:to_a).flatten
     string = (0...50).map { o[rand(o.length)] }.join
@@ -16,7 +15,7 @@
         </button>
       </div>
       <div class="toast-body">
-        <%= message %>
+        <%= raw message %>
       </div>
     </div>
     <script>
