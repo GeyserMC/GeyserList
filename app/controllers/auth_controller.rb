@@ -226,8 +226,8 @@ class AuthController < ApplicationController
     el = URI.encode_www_form_component(url)
 
     # If there's an error
-    if !params['error'].blank?
-      flash[:error] = params['error_description']
+    unless params['error'].blank?
+      flash[:modal] = params['error_description']
       redirect_to '/login'
       return
     end
@@ -319,9 +319,9 @@ class AuthController < ApplicationController
     end
   rescue RestClient::Exception => e
     if e.response.body.blank?
-      flash[:error] = "An error #{e.response.code} occured while trying to log you in. Try logging in again!"
+      flash[:modal] = "An error #{e.response.code} occurred while trying to log you in. Try logging in again!"
     else
-      flash[:error] = JSON.parse(e.response.body)['error_description']
+      flash[:modal] = JSON.parse(e.response.body)['error_description']
     end
     redirect_to '/login'
   end
