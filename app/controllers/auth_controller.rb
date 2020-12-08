@@ -233,7 +233,7 @@ class AuthController < ApplicationController
     end
 
     # Set the client id, secret and scopes
-    id = 'ca260d22-3665-436b-ba68-c9c29070213c'
+    id = '0799f4a5-7255-4e08-a9ff-92b21486d5ee'
     secret = Rails.application.credentials.xbox
     scopes = ["Xboxlive.signin"]
 
