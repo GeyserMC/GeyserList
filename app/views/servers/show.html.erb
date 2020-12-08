@@ -39,14 +39,18 @@
                     </div>
                   </td>
                 </tr>
+                <% if @server.discord? %>
                 <tr>
                   <th scope="row">Discord</th>
                   <td><%= link_to @server.discord, @server.discord %></td>
                 </tr>
+                <% end %>
+                <% if @server.website? %>
                 <tr>
                   <th scope="row">Website</th>
                   <td><%= link_to @server.website, @server.website %></td>
                 </tr>
+                <% end %>
             </table>
           </div>
         </div>
