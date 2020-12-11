@@ -53,7 +53,17 @@ class ServersController < ApplicationController
       return
     end
 
-    # TODO: Validate IPs, website, and remove swears from input.
+    java = JSON.parse(RestClient.get("https://api.mcsrvstat.us/2/#{params[:server][:java_ip]}"))
+    java_issue = nil
+    java_issue = "Java server is offline!" unless java['online']
+    if java_issue
+      flash[:modal_js] = java_issue
+      flash[:server] = params[:server].to_unsafe_h
+      redirect_to '/servers/new'
+      return
+    end
+
+    # TODO: Validate website and site for swears
 
     server_params = params[:server].to_unsafe_h
     server_params['user_id'] = session[:id]
