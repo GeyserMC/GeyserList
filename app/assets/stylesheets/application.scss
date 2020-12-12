@@ -37,3 +37,16 @@ $brands: ("discord": #7289DA, "google": #E0492E, "apple": #555555, "github": #24
 hr.small-hr {
 	width: 10%;
 }
+
+// For InscrybMDE
+.editor-toolbar {
+	opacity: .6;
+
+	&:hover {
+		opacity: .8;
+	}
+
+	& a, & button {
+    color: #2c3e50!important;
+	}
+}

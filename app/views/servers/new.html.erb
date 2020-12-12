@@ -32,10 +32,21 @@
     <% end %>
     <br>
     <script>
-      new SimpleMDE({
+      var descEditor = new InscrybMDE({
         element: document.getElementById("server_description"),
-        spellChecker: false
+        spellChecker: false,
+        status: false,
+        promptURLs: true,
+        autoDownloadFontAwesome: false
       });
+
+      document.addEventListener('turbolinks:load', function () {
+        descEditor.render();
+      })
+
+      document.addEventListener('turbolinks:before-cache', function () {
+        descEditor.toTextArea();
+      })
     </script>
   </div>
 </section>
