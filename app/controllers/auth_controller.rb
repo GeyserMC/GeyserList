@@ -19,7 +19,7 @@ class AuthController < ApplicationController
 
     # If there's no code parameter
     if params['code'].nil?
-      redirect_to "https://discord.com/api/oauth2/authorize?client_id=781715071134072832&redirect_uri=#{el}%2Flogin/discord&response_type=code&scope=identify"
+      redirect_to "https://discord.com/api/oauth2/authorize?client_id=#{Rails.configuration.integrations.discord[:client_id]}&redirect_uri=#{el}%2Flogin/discord&response_type=code&scope=identify"
       return
     end
 
@@ -30,8 +30,8 @@ class AuthController < ApplicationController
     discord = Net::HTTP::Post.new(uri)
     discord.content_type = 'application/x-www-form-urlencoded'
     discord.set_form_data(
-      'client_id' => '781715071134072832',
-      'client_secret' => Rails.application.credentials.discord,
+      'client_id' => Rails.configuration.integrations.discord[:client_id],
+      'client_secret' => Rails.configuration.integrations.discord[:client_secret],
       'grant_type' => 'authorization_code',
       'code' => code,
       'redirect_uri' => "#{url}/login/discord",
@@ -82,15 +82,15 @@ class AuthController < ApplicationController
   def google
     el = URI.encode_www_form_component(request.base_url)
     if params['code'].nil?
-      redirect_to "https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=#{el}/login/google&prompt=consent&response_type=code&client_id=482524144732-7spa5fgljc4tohbi9ohll7cdfiv1t7t3.apps.googleusercontent.com&scope=email&access_type=offline"
+      redirect_to "https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=#{el}/login/google&prompt=consent&response_type=code&client_id=#{Rails.configuration.integrations.google[:client_id]}&scope=email&access_type=offline"
       return
     end
 
     data = {
       "code": params['code'],
       "redirect_uri": "#{request.base_url}/login/google",
-      "client_id": '482524144732-7spa5fgljc4tohbi9ohll7cdfiv1t7t3.apps.googleusercontent.com',
-      "client_secret": Rails.application.credentials.google,
+      "client_id": Rails.configuration.integrations.google[:client_id],
+      "client_secret": Rails.configuration.integrations.google[:client_secret],
       "scope": 'email',
       "grant_type": 'authorization_code'
     }
@@ -130,7 +130,7 @@ class AuthController < ApplicationController
 
   def login_apple
     data = {
-      client_id: "org.geysermc.servers.signin",
+      client_id: Rails.application.credentials.apple[:client_id],
       redirect_uri: request.url,
       response_type: "code id_token",
       scope: "email",
@@ -173,7 +173,7 @@ class AuthController < ApplicationController
   def github
     if params['code'].nil?
       data = {
-        client_id: "008045a940df3dee151f",
+        client_id: Rails.configuration.integrations.github[:client_id],
         redirect_uri: request.url,
         allow_signup: true
       }
@@ -185,8 +185,8 @@ class AuthController < ApplicationController
     data = {
       code: params['code'],
       redirect_uri: request.url,
-      client_id: '008045a940df3dee151f',
-      client_secret: Rails.application.credentials.github
+      client_id: Rails.configuration.integrations.github[:client_id],
+      client_secret: Rails.configuration.integrations.github[:client_secret]
     }
 
     github = JSON.parse(RestClient.post("https://github.com/login/oauth/access_token",
@@ -233,8 +233,8 @@ class AuthController < ApplicationController
     end
 
     # Set the client id, secret and scopes
-    id = '0799f4a5-7255-4e08-a9ff-92b21486d5ee'
-    secret = Rails.application.credentials.xbox
+    id = Rails.configuration.integrations.xbox[:client_id]
+    secret = Rails.configuration.integrations.xbox[:client_secret]
     scopes = ["Xboxlive.signin"]
 
     # If there's no code parameter
