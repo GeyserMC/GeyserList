@@ -130,7 +130,7 @@ class AuthController < ApplicationController
 
   def login_apple
     data = {
-      client_id: Rails.application.credentials.apple[:client_id],
+      client_id: Rails.configuration.integrations.apple[:client_id],
       redirect_uri: request.url,
       response_type: "code id_token",
       scope: "email",

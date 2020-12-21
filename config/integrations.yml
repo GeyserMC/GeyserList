@@ -5,7 +5,9 @@ shared:
   google:
     client_id: 482524144732-7spa5fgljc4tohbi9ohll7cdfiv1t7t3.apps.googleusercontent.com
     client_secret: <%= Rails.application.credentials.google %>
-  # Apple is in config/initializers/apple_auth.rb & the credentials
+  apple:
+    client_id: org.geysermc.servers.signin
+    # Other Apple credentials are in config/initializers/apple_auth.rb & the credentials
   xbox:
     client_id: 0799f4a5-7255-4e08-a9ff-92b21486d5ee
     client_secret: <%= Rails.application.credentials.xbox %>
