@@ -29,7 +29,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'rest-client'
 
 # Use CryptKeeper for encryption
-gem 'crypt_keeper'
+gem 'crypt_keeper', '>= 2.1'
 
 # To save multiple headaches with Sign in with Apple
 gem 'apple_auth'

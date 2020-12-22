@@ -61,8 +61,8 @@
             Description
           </div>
           <div class="card-body">
-            <% if !@server.banner.blank? %>
-            <img src="<%= @server.banner %>" alt="Server Banner" />
+            <% unless @server.banner.blank? %>
+            <img src="<%=  @server.banner  %>" alt="Server Banner"/>
             <% end %>
             <%= raw @server.rendered_description %>
           </div>
