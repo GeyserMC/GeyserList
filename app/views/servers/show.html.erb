@@ -64,7 +64,7 @@
             <% if !@server.banner.blank? %>
             <img src="<%= @server.banner %>" alt="Server Banner" />
             <% end %>
-            <%= @server.description %>
+            <%= raw @server.rendered_description %>
           </div>
         </div>
       </div>

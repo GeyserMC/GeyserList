@@ -168,6 +168,7 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    redcarpet (3.5.1)
     regexp_parser (1.8.2)
     rest-client (2.1.0)
       http-accept (>= 1.7.0, < 2.0)
@@ -245,6 +246,7 @@ DEPENDENCIES
   mysql2 (~> 0.5.3)
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.4)
+  redcarpet
   rest-client
   sass-rails (>= 6)
   selenium-webdriver
