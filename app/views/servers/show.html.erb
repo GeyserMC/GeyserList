@@ -39,6 +39,25 @@
                     </div>
                   </td>
                 </tr>
+                <% if @info == "Offline" %>
+                <tr>
+                  <th scope="row">Status</th>
+                  <td>Offline</td>
+                </tr>
+                <% else %>
+                <tr>
+                  <th scope="row">Status</th>
+                  <td>Online</td>
+                </tr>
+                <tr>
+                  <th scope="row">Players</th>
+                  <td><%= @info.players %> / <%= @info.max_players %></td>
+                </tr>
+                <tr>
+                  <th scope="row">Version</th>
+                  <td><%= @info.version %></td>
+                </tr>
+                <% end %>
                 <% if @server.discord? %>
                 <tr>
                   <th scope="row">Discord</th>

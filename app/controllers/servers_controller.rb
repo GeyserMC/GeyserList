@@ -12,6 +12,7 @@ class ServersController < ApplicationController
       end
     else
       @owner = @server.user
+      @info = @server.status
     end
   end
 
