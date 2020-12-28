@@ -5,10 +5,18 @@ class User < ApplicationRecord
   validates :username, :access_token, presence: true
   validates :username, uniqueness: { message: "An account with that name already exists!" }
 
+  include FlagShihTzu
+
   has_flags 1 => :moderator, # 1
             2 => :staff,     # 2
             3 => :verified,  # 4
             4 => :admin,     # 8
             5 => :developer, # 16
             :column => 'status'
+
+  def verified_icon
+    return unless verified?
+
+    ActionController::Base.helpers.image_tag "verified.png", style: 'margin-top: -5px'
+  end
 end
