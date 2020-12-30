@@ -9,14 +9,14 @@ class QueryServerJob < ApplicationJob
     addy = ip.split(':')
     result = q2cmd(addy[0], addy[1], "status")
     Rails.cache.fetch("status/#{ip}", expires_in: 4.hours, force: true) do
-      next "Offline" if result.nil?
+      next ServerInfo.new false, nil, nil, nil if result.nil?
 
       result = result.split("\x00")
-      next "Offline" if result.length < 23
+      next ServerInfo.new false, nil, nil, nil if result.length < 23
 
       response = pretty_response result
 
-      ServerInfo.new response['numplayers'], response['maxplayers'], response['version']
+      ServerInfo.new true, response['numplayers'], response['maxplayers'], response['version']
     end
   end
 

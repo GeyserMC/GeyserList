@@ -14,6 +14,8 @@ class ServersController < ApplicationController
       @owner = @server.user
       @info = @server.status
 
+      return if @info.offline?
+
       @version_info = @info.version.split(' ')[1].gsub(/\(|\)/, "")
       @branch = @version_info.split('-')[1]
       @commit = @version_info.split('-').last
