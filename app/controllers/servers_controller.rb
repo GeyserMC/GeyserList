@@ -96,7 +96,7 @@ class ServersController < ApplicationController
     end
 
     unless session[:id] == server.user_id
-      flash[:modal_js] = "You don't own that sserver. Stop breaking site pls"
+      flash[:modal_js] = "You don't own that server. Stop breaking site pls"
       return
     end
 
@@ -110,5 +110,27 @@ class ServersController < ApplicationController
     server.query(false)
 
     flash[:modal_js] = "Successfully re-queried the server!"
+  end
+
+  def destroy
+    server = Server.find_by(id: params['id'])
+
+
+    if server.nil?
+      flash[:modal_js] = "Server doesn't exist. Stop breaking site pls"
+      redirect_to "/servers/#{params['id']}"
+      return
+    end
+
+    unless session[:id] == server.user_id
+      flash[:modal_js] = "You don't own that server. Stop breaking site pls"
+      redirect_to "/servers/#{params['id']}"
+      return
+    end
+
+    server.destroy!
+
+    redirect_to "/"
+    flash[:modal_js] = "Server deleted successfully."
   end
 end

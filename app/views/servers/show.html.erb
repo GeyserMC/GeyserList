@@ -79,6 +79,13 @@
                   <th scope="row">Last Queried</th>
                   <td><%= distance_of_time_in_words_to_now @info.timestamp %> ago - <%= link_to "Re-Query", "/servers/#{params['id']}/query", method: :post %></td>
                 </tr>
+                <tr>
+                  <th scope="row">Actions</th>
+                  <td>
+                    <%= link_to "Edit", "/servers/#{params['id']}/edit" %> -
+                    <%= link_to "Delete", server_path, method: :delete, data: { confirm: 'Are you sure? This cannot be undone.' } %>
+                  </td>
+                </tr>
                 <% end %>
             </table>
           </div>
