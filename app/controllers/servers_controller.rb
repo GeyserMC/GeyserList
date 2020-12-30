@@ -82,4 +82,31 @@ class ServersController < ApplicationController
       redirect_to '/servers/new'
     end
   end
+
+  def requery
+    server = Server.find_by(id: params['id'])
+
+    redirect_to "/servers/#{params['id']}"
+
+    if server.nil?
+      flash[:modal_js] = "Server doesn't exist. Stop breaking site pls"
+      return
+    end
+
+    unless session[:id] == server.user_id
+      flash[:modal_js] = "You don't own that sserver. Stop breaking site pls"
+      return
+    end
+
+    last_queried = server.status.timestamp
+
+    if last_queried > Time.now - 5.minutes
+      flash[:modal_js] = "This server was recently queried. Please wait 5 minutes between manual queries!"
+      return
+    end
+
+    server.query(false)
+
+    flash[:modal_js] = "Successfully re-queried the server!"
+  end
 end

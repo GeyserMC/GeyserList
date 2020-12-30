@@ -2,7 +2,7 @@
   <div class="container">
     <br>      
     <h1><%= @server.name %></h1>
-    
+
     <div class="row">
       <div class="col col-12 col-md-auto mr-md-1 mb-2 mb-md-0">
         <div class="card">
@@ -72,6 +72,12 @@
                 <tr>
                   <th scope="row">Website</th>
                   <td><%= link_to @server.website, @server.website %></td>
+                </tr>
+                <% end %>
+                <% if session[:id] == @server.user_id %>
+                <tr>
+                  <th scope="row">Last Queried</th>
+                  <td><%= distance_of_time_in_words_to_now @info.timestamp %> ago - <%= link_to "Re-Query", "/servers/#{params['id']}/query", method: :post %></td>
                 </tr>
                 <% end %>
             </table>

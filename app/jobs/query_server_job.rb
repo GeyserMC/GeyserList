@@ -8,7 +8,7 @@ class QueryServerJob < ApplicationJob
   def perform(ip)
     addy = ip.split(':')
     result = q2cmd(addy[0], addy[1], "status")
-    Rails.cache.fetch("status/#{ip}", expires_in: 4.hours) do
+    Rails.cache.fetch("status/#{ip}", expires_in: 4.hours, force: true) do
       next "Offline" if result.nil?
 
       result = result.split("\x00")

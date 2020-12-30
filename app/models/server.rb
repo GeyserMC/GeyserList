@@ -18,11 +18,7 @@ class Server < ApplicationRecord
 
   # Gets the status of the server
   def status
-    cache = Rails.cache.fetch("status/#{bedrock_ip}")
-
-    if cache.nil?
-      query(false)
-    end
+    query(false) unless Rails.cache.exist? "status/#{bedrock_ip}"
 
     Rails.cache.fetch("status/#{bedrock_ip}")
   end
