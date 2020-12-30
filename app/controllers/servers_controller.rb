@@ -13,6 +13,10 @@ class ServersController < ApplicationController
     else
       @owner = @server.user
       @info = @server.status
+
+      @version_info = @info.version.split(' ')[1].gsub(/\(|\)/, "")
+      @branch = @version_info.split('-')[1]
+      @commit = @version_info.split('-').last
     end
   end
 

@@ -54,8 +54,12 @@
                   <td><%= @info.players %> / <%= @info.max_players %></td>
                 </tr>
                 <tr>
-                  <th scope="row">Version</th>
-                  <td><%= @info.version %></td>
+                  <th scope="row">Bedrock Version</th>
+                  <td><%= @info.version.split(' ').last %></td>
+                </tr>
+                <tr>
+                  <th scope="row">Geyser Version</th>
+                  <td><%= link_to @version_info, "https://github.com/GeyserMC/Geyser/compare/#{@commit}...#{@branch}" %></a></td>
                 </tr>
                 <% end %>
                 <% if @server.discord? %>
