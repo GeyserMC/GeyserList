@@ -1,0 +1,23 @@
+shared:
+  discord:
+    client_id: 781715071134072832
+    client_secret: <%= Rails.application.credentials.discord %>
+  google:
+    client_id: 482524144732-7spa5fgljc4tohbi9ohll7cdfiv1t7t3.apps.googleusercontent.com
+    client_secret: <%= Rails.application.credentials.google %>
+  apple:
+    client_id: org.geysermc.servers.signin
+    # Other Apple credentials are in config/initializers/apple_auth.rb & the credentials
+  xbox:
+    client_id: 0799f4a5-7255-4e08-a9ff-92b21486d5ee
+    client_secret: <%= Rails.application.credentials.xbox %>
+
+development:
+  github:
+    client_id: 008045a940df3dee151f
+    client_secret: <%= Rails.application.credentials.github %>
+
+production:
+  github:
+    client_id: 629f26ae9078fee018e8
+    client_secret: <%= Rails.application.credentials.github %>
