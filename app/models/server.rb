@@ -10,7 +10,7 @@ class Server < ApplicationRecord
   # Renders the description in markdown
   # @return [String] rendered markdown in HTML
   def rendered_description
-    render = Redcarpet::Render::HTML.new(escape_html: true, no_images: true, no_styles: true, no_links: true, prettify: true)
+    render = Redcarpet::Render::HTML.new(escape_html: true, no_images: true, no_styles: true, prettify: true)
     markdown = Redcarpet::Markdown.new(render)
 
     markdown.render(description)
