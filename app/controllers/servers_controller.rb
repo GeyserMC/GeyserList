@@ -115,7 +115,6 @@ class ServersController < ApplicationController
   def destroy
     server = Server.find_by(id: params['id'])
 
-
     if server.nil?
       flash[:modal_js] = "Server doesn't exist. Stop breaking site pls"
       redirect_to "/servers/#{params['id']}"
@@ -132,5 +131,35 @@ class ServersController < ApplicationController
 
     redirect_to "/"
     flash[:modal_js] = "Server deleted successfully."
+  end
+
+  def edit
+    @server = Server.find(params[:id])
+
+    if @server.nil?
+      flash[:modal_js] = "Server doesn't exist. Stop breaking site pls"
+      redirect_to server_path(@server)
+      return
+    end
+
+    unless session[:id] == @server.user_id
+      flash[:modal_js] = "You don't own that server. Stop breaking site pls"
+      redirect_to server_path(@server)
+    end
+  end
+
+  def update
+    @server = Server.find(params[:id])
+    begin
+      @server.update! description: params[:server][:description],
+                      website: params[:server][:website],
+                      discord: params[:server][:discord]
+      flash[:modal_js] = "Updated successfully."
+      redirect_to server_path(@server)
+    rescue ActiveRecord::RecordInvalid
+      flash[:modal_js] = @server.errors.full_messages.join("<br>")
+      flash[:server] = params[:server].to_unsafe_h
+      redirect_to server_path(@server) + '/edit'
+    end
   end
 end
