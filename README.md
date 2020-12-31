@@ -1,20 +1,20 @@
 # GeyserList
 
-A Minecraft server list exclusively for servers running Geyser.
+A Minecraft server list exclusively for servers running [Geyser](https://github.com/GeyserMC/Geyser).
 
 ## Installing
 
-In case you want to install or help develop, you'll need the following information. If you just want to access the site, go here: https://servers.geysermc.org.
+In case you want to install or help develop, you'll need the following information. If you wish to access the site, go here: https://servers.geysermc.org.
 
 ### Ruby version
 
-GeyserList requires Ruby 2.7.2, this can be installed via [rvm](https://rvm.io) on UNIX systems, and RubyForWindows for Windows.
+GeyserList requires Ruby 2.7.2, which can be installed via [rvm](https://rvm.io) on UNIX systems or RubyForWindows for Windows.
 
 ### System dependencies
 
 You'll need the latest version of Node and Yarn installed to install JS dependencies. You'll need Bundler gem to install Ruby dependencies.
 
-To install either respectively, run the following:
+To install either, respectively, run the following:
 ```
 yarn install --check-files
 bundle install
@@ -24,45 +24,72 @@ bundle install
 
 Each login needs an integration setup and a key. This is required for all the services we offer and can be managed in the respective credentials files.
 
-Obviously, the credentials stored here are encrypted and secured, so you'll have to wipe them and make your own credentials.
+The credentials stored here are encrypted and secured, so you'll have to wipe them to keep your credentials.
 
 The credentials file is as such:
 
 ```yml
-db:
-  host: 
-  user: 
-  pass: 
+db: # Database information (Required)
+  host: # URL for your Database
+  user: # Username
+  pass: # Password
 
-crypt:
-  key: 
-  salt: 
+crypt: # Database encryption (Required)
+  key: # Encryption key
+  salt: # Encryption salt
 
-discord: 
-google: 
-github: 
-xbox: 
+# Oauth Secrets - Optional (unless you need to sign in)
+discord: # Discord Oauth Secret
+google: # Google Oauth Secret
+github: # GitHub Client Secret
+xbox: # Xbox Secret
 
+# Apple information, bit complicated - Optional (requires an Apple developer membership)
 apple:
-  client_id:
-  private_key: ""
-  key_id: 
-  team_id: 
+  private_key: "" # Private key (with --BEGIN PRIVATE KEY-- and --END PRIVATE KEY--)
+  key_id: # The Key ID (found in your certificates area)
+  team_id: # The Team ID (located next to your name in the top right)
 ```
 
-DB is required to be filled out (see below). Crypt is for database encryption, and everything else is for signing in with service credentials. Public information is stored in the file directly at this time.
+Additionally, to edit integration OAuth configuration, navigate to `config/integrations.yml`.
+
+```yaml
+shared:
+  discord:
+    client_id: # Discord Client ID
+    client_secret: <%= Rails.application.credentials.discord %> # Leave blank, fills in from credentials
+  google:
+    client_id: # Google Client ID
+    client_secret: <%= Rails.application.credentials.google %> # Leave blank, fills in from credentials
+  apple:
+    client_id: # Apple Client ID
+    # Other Apple credentials are in config/initializers/apple_auth.rb & the credentials
+  xbox:
+    client_id: # Xbox Client ID
+    client_secret: <%= Rails.application.credentials.xbox %> # Leave blank, fills in from credentials
+
+development:
+  github:
+    client_id: # Development environment GitHub Client ID
+    client_secret: <%= Rails.application.credentials.github %> # Leave blank, fills in from credentials
+
+production:
+  github:
+    client_id: # Production environment GitHub Client ID
+    client_secret: <%= Rails.application.credentials.github %> # Leave blank, fills in from credentials
+```
 
 ### Database creation
 
-The database used is MariaDB (but MySQL works fine as well). Run `rake db:schema:load` to load the schema into the "geyserlist_dev" database after it is configured in the previous step.
+The database used is MariaDB (but MySQL works fine as well). Run `rake db:schema:load` to load the schema into the "geyserlist_dev" database after being configured in the previous step.
 
 ### Database initialization
 
-There are currently no seeds, everything is blank by default.
+There are currently no seeds. Everything is blank by default.
 
 ## How to run the test suite
 
-There are currently no test set up.
+There is currently no test suite set up.
 
 ## Services (job queues, cache servers, search engines, etc.)
 
