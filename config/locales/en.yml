@@ -30,4 +30,44 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  server_information: Server Information
+  owner: Owner
+  bedrock_ip: Bedrock IP
+  java_ip: Java IP
+  status: Status
+  players: Players
+  bedrock_version: Bedrock Version
+  geyser_version: Geyser Version
+  discord: Discord
+  website: Website
+  last_queried: Last Queried
+  actions: Actions
+  edit: Edit
+  delete: Delete
+  delete_confirm: Are you sure? This cannot be undone.
+  re_query: Re-Query
+  description: Description
+  server_banner: Server Banner
+  name: Name
+  geyser_ip: Geyser IP
+  rank: Rank
+  online: Online
+  offline: Offline
+  auth:
+    login:
+      title: Sign in with an integration.
+      subtitle: If an account does not exist, a new one will be created!
+      sign_in: Sign in
+    register:
+      title: Register with %{integration}
+      subtitle: You're almost ready, now set a username!
+      complete: "Complete sign up"
+  servers:
+    index:
+      title: idk some title?
+      subtitle: Some 10/10 content?
+    new:
+      new_server: New Server
+      enter_server_name: Enter Server Name
+      enter_description: Your server's description. Markdown supported.
+  username: "Username"

@@ -10,17 +10,17 @@
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
   <div class="text-center mb-4">
     <%= image_tag "icon.png", class: "mb-4", alt: "Geyser Logo", width: "72", height: "72" %>
-    <h1 class="h3 mb-3 font-weight-normal">Register with <%= session[:kind].capitalize %></h1>
-    <p>You're almost ready, now set a username!</p>
+    <h1 class="h3 mb-3 font-weight-normal"><%= t('.title', integration: session[:kind].capitalize) %></h1>
+    <p><%= t('.subtitle') %></p>
   </div>
 
   <div class="form-label-group">
     <input type="text" name="username" id="username" class="form-control" placeholder="Username" required autofocus>
-    <label for="username">Username</label>
+    <label for="username"><%= t('username') %></label>
   </div>
 
   <br />
-  <button type="submit" class="btn btn-lg btn-primary btn-block" id="button1">Complete sign up</button>
+  <button type="submit" class="btn btn-lg btn-primary btn-block" id="button1"><%= t('.complete') %></button>
   <br />
   <%= link_to (button_tag raw('<i class="fas fa-times-circle"></i> Cancel'), class: 'btn btn-lg btn-block btn-danger'), "/login", class: 'text-decoration-none' %>
 
