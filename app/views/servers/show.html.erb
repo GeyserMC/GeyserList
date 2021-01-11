@@ -17,7 +17,7 @@
                   <td><%= @owner.username %></td>
                 </tr>
                 <tr>
-                  <th scope="row"><%= t('bedrock_ip') %></th>
+                  <th scope="row"><%= t('geyser_ip') %></th>
                   <td>
                     <div class="input-group">
                       <input type="text" class="form-control" id="input-bedrock-ip" placeholder="Server IP" aria-label="Server IP" aria-describedby="button-bedrock-ip" value="<%= @server.bedrock_ip %>" readonly>
@@ -98,7 +98,7 @@
           </div>
           <div class="card-body">
             <% unless @server.banner.blank? %>
-            <img src="<%=  @server.banner  %>" alt="<%= t('server_banner') %>"/>
+            <img src="<%= @server.banner %>" alt="<%= t('server_banner') %>"/>
             <% end %>
             <%= raw @server.rendered_description %>
           </div>
