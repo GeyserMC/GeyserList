@@ -8,10 +8,8 @@ class User < ApplicationRecord
   include FlagShihTzu
 
   has_flags 1 => :moderator, # 1
-            2 => :staff,     # 2
-            3 => :verified,  # 4
-            4 => :admin,     # 8
-            5 => :developer, # 16
+            2 => :verified,  # 2
+            3 => :developer, # 4
             :column => 'status'
 
   def verified_icon
