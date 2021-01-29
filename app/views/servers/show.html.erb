@@ -105,5 +105,60 @@
         </div>
       </div>
     </div>
+    <hr>
+    <div class="row">
+      <div class="col">
+        <h2>Reviews</h2>
+        <p>Total Reviews: <%= @reviews.length %></p>
+        <p>Average Rating: <%= ratings = @reviews.map(&:rating); ratings.sum.to_f/ratings.count %> / 5.0</p>
+        <% if @user.reviewed?(@server) %>
+          <p>You have already reviewed this server! Click here to go to it.</p>
+        <% else %>
+          <div id="review_server" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Reviewing <%= @server.name %></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form id="responseform" action="/servers/<%= @server.id %>/review" method="post">
+                    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                    <h3 id="rating">Rating</h3>
+                    <p>If your rating differs from 5, pleace select your prefered rating.</p>
+                    <p>
+                      <span id="stars" style="z-index: 10000000;">
+                        <% (1..5).each do |i| %>
+                          <span id="star<%= i %>" onclick="updateStars(<%= i %>)" class="fa fa-star checked" style="font-size: 150%;"></span>
+                        <% end %>
+                      </span>
+                    </p>
+
+                    <input id="ratingInput" type="number" min="1" max="5" name="rating" aria-describedby="rating" required hidden value="5" />
+                    <h3>Comments</h3>
+                    <p>
+                      Leave comments about the server. Optional, but if you decide to, your input must be between 50 and 2000 characters long.
+                      Reviews containing any spam or filler characters will be removed.
+                    </p>
+                    <textarea type="text" class="form-control" id="response" name="review" placeholder="Enter Review" minlength="50" maxlength="2000"><%= flash[:review] %></textarea>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button form="responseform" id="responsebutton" type="submit" class="btn btn-success">Submit</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p><button class="btn btn-primary" data-toggle="modal" data-target="#review_server">Leave a Review</button></p>
+        <% end unless @user.nil? %>
+
+        <% @reviews.each_with_index do |e, i| %>
+          <%= render partial: 'comment', locals: { e: e, options: true, i: i } %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </section>

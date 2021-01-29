@@ -13,6 +13,8 @@ class ServersController < ApplicationController
     else
       @owner = @server.user
       @info = @server.status
+      @user = User.find_by(id: session[:id])
+      @reviews = Review.where(server_id: @server.id)
 
       return if @info.offline?
 
@@ -160,6 +162,26 @@ class ServersController < ApplicationController
       flash[:modal_js] = @server.errors.full_messages.join("<br>")
       flash[:server] = params[:server].to_unsafe_h
       redirect_to server_path(@server) + '/edit'
+    end
+  end
+
+  def review
+    @server = Server.find(params[:id])
+    @user = User.find(session[:id])
+
+    if @server.nil? || @user.nil?
+      flash[:modal_js] = "Failed to leave review: Server or User was nil!"
+      redirect_to server_path("/servers/#{params['id']}")
+      return
+    end
+
+    review = Review.create(server_id: @server.id, user_id: @user.id, rating: params['rating'], review: params['review'])
+    if review.valid?
+      redirect_to "/servers/#{@server.id}"
+    else
+      flash[:modal_js] = review.errors.full_messages.join("<br>")
+      flash[:review] = params['review']
+      redirect_to "/servers/#{@server.id}"
     end
   end
 end

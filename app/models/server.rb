@@ -1,5 +1,6 @@
 class Server < ApplicationRecord
   belongs_to :user
+  has_many :reviews
 
   validates :name, :description, presence: true
   validates :name, length: { in: 1..64 }

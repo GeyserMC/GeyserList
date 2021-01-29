@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get "/", to: "servers#index"
   resources :servers
   post 'servers/:id/query', to: 'servers#requery'
+  post 'servers/:id/review', to: 'servers#review'
 
   scope 'login' do
     get '', to: 'auth#login'
