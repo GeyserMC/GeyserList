@@ -5,7 +5,7 @@ class ServersController < ApplicationController
 
   def show
     @server = Server.find_by(id: params[:id])
-    
+
     if @server.nil?
       respond_to do |format|
         format.html { render file: "#{Rails.root}/public/404.html", status: 404, :layout => false }
@@ -17,6 +17,7 @@ class ServersController < ApplicationController
     @info = @server.status
     @user = User.find_by(id: session[:id])
     @reviews = Review.where(server_id: @server.id)
+    @profiles = User.where(id: @reviews.map(&:user_id)).to_a
 
     return if @info.offline?
 
