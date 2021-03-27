@@ -40,7 +40,7 @@
               </div>
             </td>
             <%= info = server.status;nil %>
-            <% if info == "Offline" %>
+            <% if info.offline? %>
               <td class="align-middle text-center">-</td>
               <td class="align-middle text-center"><h4 class="mb-0"><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="As of soon">Offline</span></h4></td>
             <% else %>

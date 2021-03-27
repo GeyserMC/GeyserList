@@ -10,10 +10,17 @@ class ServersController < ApplicationController
       respond_to do |format|
         format.html { render file: "#{Rails.root}/public/404.html", status: 404, :layout => false }
       end
-    else
-      @owner = @server.user
-      @info = @server.status
+      return
     end
+
+    @owner = @server.user
+    @info = @server.status
+
+    return if @info.offline?
+
+    @version_info = @info.version.split(' ')[1].gsub(/\(|\)/, "")
+    @branch = @version_info.split('-')[1]
+    @commit = @version_info.split('-').last
   end
 
   def new
@@ -46,7 +53,7 @@ class ServersController < ApplicationController
     bedrock = JSON.parse(RestClient.get("https://api.mcsrvstat.us/2/#{params[:server][:bedrock_ip]}"))
     bedrock_issue = nil
     bedrock_issue = "Bedrock server is offline!" unless bedrock['online']
-    bedrock_issue = "No Valid Geyser Found. Make sure you're up to date!" unless bedrock['version'].start_with? "Geyser"
+    bedrock_issue = "No Valid Geyser Found. Make sure you're up to date!" unless bedrock['version'].start_with? "Geyser" if bedrock['online']
     if bedrock_issue
       flash[:modal_js] = bedrock_issue
       flash[:server] = params[:server].to_unsafe_h
@@ -76,6 +83,84 @@ class ServersController < ApplicationController
       flash[:modal_js] = server.errors.full_messages.join("<br>")
       flash[:server] = params[:server].to_unsafe_h
       redirect_to '/servers/new'
+    end
+  end
+
+  def requery
+    server = Server.find_by(id: params['id'])
+
+    redirect_to "/servers/#{params['id']}"
+
+    if server.nil?
+      flash[:modal_js] = "Server doesn't exist. Stop breaking site pls"
+      return
+    end
+
+    unless session[:id] == server.user_id
+      flash[:modal_js] = "You don't own that server. Stop breaking site pls"
+      return
+    end
+
+    last_queried = server.status.timestamp
+
+    if last_queried > Time.now - 5.minutes
+      flash[:modal_js] = "This server was recently queried. Please wait 5 minutes between manual queries!"
+      return
+    end
+
+    server.query(false)
+
+    flash[:modal_js] = "Successfully re-queried the server!"
+  end
+
+  def destroy
+    server = Server.find_by(id: params['id'])
+
+    if server.nil?
+      flash[:modal_js] = "Server doesn't exist. Stop breaking site pls"
+      redirect_to "/servers/#{params['id']}"
+      return
+    end
+
+    unless session[:id] == server.user_id
+      flash[:modal_js] = "You don't own that server. Stop breaking site pls"
+      redirect_to "/servers/#{params['id']}"
+      return
+    end
+
+    server.destroy!
+
+    redirect_to "/"
+    flash[:modal_js] = "Server deleted successfully."
+  end
+
+  def edit
+    @server = Server.find(params[:id])
+
+    if @server.nil?
+      flash[:modal_js] = "Server doesn't exist. Stop breaking site pls"
+      redirect_to server_path(@server)
+      return
+    end
+
+    unless session[:id] == @server.user_id
+      flash[:modal_js] = "You don't own that server. Stop breaking site pls"
+      redirect_to server_path(@server)
+    end
+  end
+
+  def update
+    @server = Server.find(params[:id])
+    begin
+      @server.update! description: params[:server][:description],
+                      website: params[:server][:website],
+                      discord: params[:server][:discord]
+      flash[:modal_js] = "Updated successfully."
+      redirect_to server_path(@server)
+    rescue ActiveRecord::RecordInvalid
+      flash[:modal_js] = @server.errors.full_messages.join("<br>")
+      flash[:server] = params[:server].to_unsafe_h
+      redirect_to server_path(@server) + '/edit'
     end
   end
 end

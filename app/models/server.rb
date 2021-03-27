@@ -1,7 +1,7 @@
 class Server < ApplicationRecord
   belongs_to :user
 
-  validates :name, :description, :java_ip, :bedrock_ip, presence: true
+  validates :name, :description, presence: true
   validates :name, length: { in: 1..64 }
   validates :name, uniqueness: { message: "A server with that name already exists!" }
   validates :description, length: { in: 100..2500 }
@@ -10,7 +10,7 @@ class Server < ApplicationRecord
   # Renders the description in markdown
   # @return [String] rendered markdown in HTML
   def rendered_description
-    render = Redcarpet::Render::HTML.new(escape_html: true, no_images: true, no_styles: true, no_links: true, prettify: true)
+    render = Redcarpet::Render::HTML.new(escape_html: true, no_images: true, no_styles: true, prettify: true)
     markdown = Redcarpet::Markdown.new(render)
 
     markdown.render(description)
@@ -18,11 +18,7 @@ class Server < ApplicationRecord
 
   # Gets the status of the server
   def status
-    cache = Rails.cache.fetch("status/#{bedrock_ip}")
-
-    if cache.nil?
-      query(false)
-    end
+    query(false) unless Rails.cache.exist? "status/#{bedrock_ip}"
 
     Rails.cache.fetch("status/#{bedrock_ip}")
   end
