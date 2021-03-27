@@ -16,11 +16,9 @@ It is designed to promote servers running Geyser, and encourages owners to enabl
 
 ## Links
 
-To access GeyserList, you can go to https://servers.geysermc.org/
+To access the official GeyserList instance, you can go to https://servers.geysermc.org/
 
-From there, you'll be able to use the site.
-
-## What's left to be added/fixed
+## What's left to be added
 
 - Check PR page lol
 
