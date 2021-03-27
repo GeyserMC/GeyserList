@@ -10,16 +10,17 @@ class ServersController < ApplicationController
       respond_to do |format|
         format.html { render file: "#{Rails.root}/public/404.html", status: 404, :layout => false }
       end
-    else
-      @owner = @server.user
-      @info = @server.status
-
-      return if @info.offline?
-
-      @version_info = @info.version.split(' ')[1].gsub(/\(|\)/, "")
-      @branch = @version_info.split('-')[1]
-      @commit = @version_info.split('-').last
+      return
     end
+
+    @owner = @server.user
+    @info = @server.status
+
+    return if @info.offline?
+
+    @version_info = @info.version.split(' ')[1].gsub(/\(|\)/, "")
+    @branch = @version_info.split('-')[1]
+    @commit = @version_info.split('-').last
   end
 
   def new
