@@ -1,5 +1,3 @@
-# Cache all servers on boot (asynchronously)
-
 # Class to store Server Info
 class ServerInfo
   attr :players, :max_players, :version
@@ -16,9 +14,4 @@ class ServerInfo
   def offline?
     !@online
   end
-end
-
-Server.all.each do |server|
-  puts "Querying #{server.name}"
-  server.query
 end
