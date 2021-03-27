@@ -1,0 +1,23 @@
+<div id="<%= e.server_id %>jumb" onhover="woah();" class="jumbotron" style="background-color: rgba(196, 199, 201, 0.9);">
+  <h4 id="fix" style="overflow: hidden; margin-top: -50px">
+    <a href="/profile/<%= profile.username %>"><%= profile.username %></a>
+    &#xb7; <%= e.time_ago %>
+    &#xb7;
+    <span style="display: inline">
+      <% (1..5).each do |j| %>
+        <span class="fa fa-star <%= 'checked' if e.rating >= j %>"></span>
+      <% end %>
+    </span>
+    <% if options && !@user.nil? && (e.user_id == @user.id || @server.user_id == @user.id) %>
+    <span class="clearfix">
+      <a class="btn float-right" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-ellipsis-h"></i>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" style="color: red;" data-toggle="modal" data-target="#delete_comment_<%= i %>"><i class="fas fa-trash"></i> Delete</a>
+      </div>
+    </span>
+    <% end %>
+  </h4>
+  <p style="overflow: hidden;"><%= e.review %></p>
+</div>

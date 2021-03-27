@@ -111,7 +111,7 @@
         <h2>Reviews</h2>
         <p>Total Reviews: <%= @reviews.length %></p>
         <p>Average Rating: <%= ratings = @reviews.map(&:rating); ratings.sum.to_f/ratings.count %> / 5.0</p>
-        <% if @user.reviewed?(@server) %>
+        <% if @reviews.map(&:user_id).include?(@user.id) %>
           <p>You have already reviewed this server! Click here to go to it.</p>
         <% else %>
           <div id="review_server" class="modal fade" tabindex="-1" role="dialog">
@@ -156,7 +156,7 @@
         <% end unless @user.nil? %>
 
         <% @reviews.each_with_index do |e, i| %>
-          <%= render partial: 'comment', locals: { e: e, options: true, i: i } %>
+          <%= render partial: 'review', locals: { e: e, options: true, i: i, profile: @profiles.find{|p| p.id == e.user_id} } %>
         <% end %>
       </div>
     </div>
