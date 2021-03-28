@@ -87,8 +87,9 @@ GEM
       faraday-net_http (~> 1.0)
       multipart-post (>= 1.2, < 3)
       ruby2_keywords
-    faraday-net_http (1.0.1)
     ffi (1.15.0)
+    flag_shih_tzu (0.3.23)
+    faraday-net_http (1.0.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     http-accept (1.7.0)
@@ -255,6 +256,7 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   crypt_keeper (>= 2.1)
+  flag_shih_tzu
   jbuilder (~> 2.7)
   listen (~> 3.2)
   mysql2 (~> 0.5.3)
