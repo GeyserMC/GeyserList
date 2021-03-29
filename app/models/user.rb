@@ -12,9 +12,19 @@ class User < ApplicationRecord
             3 => :developer, # 4
             :column => 'status'
 
-  def verified_icon
+  def verified_icon(size = 24)
     return unless verified?
 
-    ActionController::Base.helpers.image_tag "verified.png", style: 'margin-top: -5px'
+    ActionController::Base.helpers.image_tag "verified.png", style: 'margin-top: -5px', height: "#{size}px"
+  end
+
+  def status_string
+    if developer?
+      "Developer"
+    elsif moderator?
+      "Moderator"
+    else
+      "None"
+    end
   end
 end

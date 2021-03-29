@@ -16,5 +16,9 @@ Rails.application.routes.draw do
   post 'registration/complete', to: 'auth#register'
   get 'logout', to: 'auth#logout'
 
+  scope 'profile' do
+    get ':username', to: 'profile#show'
+  end
+
   get 'api/v1/server/:id', to: 'api#get_server'
 end

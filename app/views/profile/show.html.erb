@@ -1,0 +1,35 @@
+<section class="section">
+  <div class="container">
+    <br>
+    <h1><%= @profile.username %> <%= @profile.verified_icon(36) %></h1>
+
+    <div class="row">
+      <div class="col col-12 col-md-auto mr-md-1 mb-2 mb-md-0">
+        <div class="card">
+          <div class="card-header text-white bg-primary">
+            User Information
+          </div>
+          <div class="table-responsive">
+            <table class="table mb-0">
+              <tbody>
+              <tr>
+                <th scope="row">Status</th>
+                <td><%= @profile.status_string %></td>
+              </tr>
+              </table>
+          </div>
+        </div>
+      </div>
+      <div class="col ml-md-1">
+        <div class="card">
+          <div class="card-header text-white bg-primary">
+            Bio
+          </div>
+          <div class="card-body">
+            <%= raw "Bio here" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
