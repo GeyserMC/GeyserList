@@ -10,16 +10,17 @@ class ServersController < ApplicationController
       respond_to do |format|
         format.html { render file: "#{Rails.root}/public/404.html", status: 404, :layout => false }
       end
-    else
-      @owner = @server.user
-      @info = @server.status
-
-      return if @info.offline?
-
-      @version_info = @info.version.split(' ')[1].gsub(/\(|\)/, "")
-      @branch = @version_info.split('-')[1]
-      @commit = @version_info.split('-').last
+      return
     end
+
+    @owner = @server.user
+    @info = @server.status
+
+    return if @info.offline?
+
+    @version_info = @info.version.split(' ')[1].gsub(/\(|\)/, "")
+    @branch = @version_info.split('-')[1...-1].join("-")
+    @commit = @version_info.split('-').last
   end
 
   def new
@@ -52,7 +53,7 @@ class ServersController < ApplicationController
     bedrock = JSON.parse(RestClient.get("https://api.mcsrvstat.us/2/#{params[:server][:bedrock_ip]}"))
     bedrock_issue = nil
     bedrock_issue = "Bedrock server is offline!" unless bedrock['online']
-    bedrock_issue = "No Valid Geyser Found. Make sure you're up to date!" unless bedrock['version'].start_with? "Geyser"
+    bedrock_issue = "No Valid Geyser Found. Make sure you're up to date!" unless bedrock['version'].start_with? "Geyser" if bedrock['online']
     if bedrock_issue
       flash[:modal_js] = bedrock_issue
       flash[:server] = params[:server].to_unsafe_h
