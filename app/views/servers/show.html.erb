@@ -153,10 +153,10 @@
             </div>
           </div>
           <p><button class="btn btn-primary" data-toggle="modal" data-target="#review_server">Leave a Review</button></p>
-        <% end unless @user.nil? %>
+        <% end unless @user.nil? || @user.id == @server.user_id %>
 
         <% @reviews.each_with_index do |e, i| %>
-          <%= render partial: 'review', locals: { e: e, options: true, i: i, profile: @profiles.find{|p| p.id == e.user_id} } %>
+          <%= render partial: 'review', locals: { e: e, options: true, i: i, profile: @profiles.find{|p| p.id == e.user_id}, id: "#{e.server_id}jumb" } %>
         <% end %>
       </div>
     </div>

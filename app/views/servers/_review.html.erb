@@ -1,4 +1,4 @@
-<div id="<%= e.server_id %>jumb" onhover="woah();" class="jumbotron" style="background-color: rgba(196, 199, 201, 0.9);">
+<div id="<%= id %>" onhover="woah();" class="jumbotron" style="background-color: rgba(196, 199, 201, 0.9);">
   <h4 id="fix" style="overflow: hidden; margin-top: -50px">
     <a href="/profile/<%= profile.username %>"><%= profile.username %></a>
     &#xb7; <%= e.time_ago %>
@@ -8,7 +8,7 @@
         <span class="fa fa-star <%= 'checked' if e.rating >= j %>"></span>
       <% end %>
     </span>
-    <% if options && !@user.nil? && (e.user_id == @user.id || @server.user_id == @user.id) %>
+    <% if options && !@user.nil? && (e.user_id == @user.id || @user.moderator?) %>
     <span class="clearfix">
       <a class="btn float-right" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-ellipsis-h"></i>
@@ -17,7 +17,29 @@
         <a class="dropdown-item" style="color: red;" data-toggle="modal" data-target="#delete_comment_<%= i %>"><i class="fas fa-trash"></i> Delete</a>
       </div>
     </span>
+      </h4>
+      <div id="delete_comment_<%= i %>" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Removing Review</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure you want to remove this review?</p>
+              <%= render partial: 'review', locals: { e: e, options: false, i: i, profile: @profiles.find{|p| p.id == e.user_id}, id: "comment_#{i}" } %>
+            </div>
+            <div class="modal-footer">
+              <button form="responseform" id="responsebutton" type="submit" class="btn btn-success">Submit</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      </h4>
     <% end %>
-  </h4>
   <p style="overflow: hidden;"><%= e.review %></p>
 </div>
