@@ -40,6 +40,8 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # Parses and renders markdown
 gem 'redcarpet'
 
+# For bit flags
+gem 'flag_shih_tzu'
 # Log errors to Sentry
 gem "sentry-ruby"
 gem "sentry-rails"
