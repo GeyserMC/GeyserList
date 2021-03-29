@@ -28,7 +28,7 @@
         <%= f.text_field(:discord, value: flash[:server]['discord'], class: "form-control", placeholder: "Discord Server Invite (Optional)") %>
       </div>
       
-      <%= f.submit("Create", class: "btn btn-primary") %>
+      <%= f.submit(t('submit'), class: "btn btn-primary") %>
     <% end %>
     <br>
     <script>

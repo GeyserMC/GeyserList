@@ -62,6 +62,7 @@ en:
       title: Register with %{integration}
       subtitle: You're almost ready, now set a username!
       complete: "Complete sign up"
+      setting_account_up: "Setting your account up..."
   servers:
     index:
       title: idk some title?
@@ -71,3 +72,6 @@ en:
       enter_server_name: Enter Server Name
       enter_description: Your server's description. Markdown supported.
   username: "Username"
+  submit: "Submit"
+  save: "Save"
+  cancel: "Cancel"
