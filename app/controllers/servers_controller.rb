@@ -19,7 +19,7 @@ class ServersController < ApplicationController
     return if @info.offline?
 
     @version_info = @info.version.split(' ')[1].gsub(/\(|\)/, "")
-    @branch = @version_info.split('-')[1]
+    @branch = @version_info.split('-')[1...-1].join("-")
     @commit = @version_info.split('-').last
   end
 
