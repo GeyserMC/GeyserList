@@ -165,7 +165,7 @@ class ServersController < ApplicationController
   end
 
   def result
-    ip = params['bedrock_ip']
+    ip = params['bedrock_ip'] + ":" + params['bedrock_port']
     unless ip.split(':').length == 2
       ip = "#{ip}:19132"
     end

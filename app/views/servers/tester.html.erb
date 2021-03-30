@@ -27,13 +27,31 @@
       <h4>Try another?</h4>
     </div>
 
+    <p>Enter your Geyser address info below:</p>
+
     <%= form_with url: "/servers/test" do |f| %>
       <div class="form-group">
-        <%= f.label(:name, "Geyser IP", id: "geyserIpLabel") %>
-        <%= f.text_field(:bedrock_ip, class: "form-control", required: true, placeholder: "Geyser IP", maxlength: 35) %>
+        <%= f.label(:name, "Server IP", id: "geyserIpLabel") %>
+        <%= f.text_field(:bedrock_ip, class: "form-control", required: true, placeholder: "IP", maxlength: 35, onchange: "movePortIfNeeded()") %>
+      </div>
+      <div class="form-group">
+        <%= f.label(:name, "Server Port", id: "geyserPortLabel") %>
+        <%= f.text_field(:bedrock_port, class: "form-control", required: true, placeholder: "Port", type: 'number', max: 65535, min: 1, value: 19132) %>
       </div>
 
       <%= f.submit("Submit", class: "btn btn-primary") %>
     <% end %>
   </div>
 </section>
+
+<script>
+  function movePortIfNeeded() {
+      let ip = document.getElementById("bedrock_ip");
+      let port = document.getElementById("bedrock_port");
+
+      if (ip.value.includes(":")) {
+          port.value = ip.value.split(":")[1]
+          ip.value = ip.value.split(":")[0]
+      }
+  }
+</script>
