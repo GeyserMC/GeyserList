@@ -165,9 +165,14 @@ class ServersController < ApplicationController
   end
 
   def result
-    QueryServerJob.perform_now params['bedrock_ip']
+    ip = params['bedrock_ip']
+    unless ip.split(':').length == 2
+      ip = "#{ip}:19132"
+    end
 
-    @info = Rails.cache.fetch("status/#{params['bedrock_ip']}")
+    QueryServerJob.perform_now ip
+
+    @info = Rails.cache.fetch("status/#{ip}")
 
     return if @info.offline?
 

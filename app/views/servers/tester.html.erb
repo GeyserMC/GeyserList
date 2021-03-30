@@ -3,6 +3,8 @@
     <br>
     <h2>Server Tester</h2>
     <p>Enter your Geyser/Bedrock IP below to see if it's working properly before adding it to the list.</p>
+    <p>Please note that only servers running Geyser will return a result.</p>
+    <p>If no port is specified, it will default to <code>19132</code>.</p>
 
     <div id="responseData" hidden>
       <h3>Response Data</h3>
@@ -28,7 +30,7 @@
     <%= form_with url: "/servers/test" do |f| %>
       <div class="form-group">
         <%= f.label(:name, "Geyser IP", id: "geyserIpLabel") %>
-        <%= f.text_field(:bedrock_ip, class: "form-control", required: true, placeholder: "Geyser IP") %>
+        <%= f.text_field(:bedrock_ip, class: "form-control", required: true, placeholder: "Geyser IP", maxlength: 35) %>
       </div>
 
       <%= f.submit("Submit", class: "btn btn-primary") %>
