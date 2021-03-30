@@ -1,0 +1,37 @@
+<section class="section">
+  <div class="container">
+    <br>
+    <h2>Server Tester</h2>
+    <p>Enter your Geyser/Bedrock IP below to see if it's working properly before adding it to the list.</p>
+
+    <div id="responseData" hidden>
+      <h3>Response Data</h3>
+
+      <div>
+        <h4 class="mb-0">
+          <span id="offlineButton" hidden><span class="badge badge-danger">Offline</span></span>
+          <span id="onlineButton" hidden><span class="badge badge-success">Online</span></span>
+        </h4>
+      </div>
+
+      <br>
+
+      <p id="onlineOnlyData" hidden>
+        Geyser Version: <span id="geyserVersion"></span><br>
+        Bedrock Version: <span id="bedrockVersion"></span><br>
+        Players: <span id="playersCount"></span>
+      </p>
+
+      <h4>Try another?</h4>
+    </div>
+
+    <%= form_with url: "/servers/test" do |f| %>
+      <div class="form-group">
+        <%= f.label(:name, "Geyser IP", id: "geyserIpLabel") %>
+        <%= f.text_field(:bedrock_ip, class: "form-control", required: true, placeholder: "Geyser IP") %>
+      </div>
+
+      <%= f.submit("Submit", class: "btn btn-primary") %>
+    <% end %>
+  </div>
+</section>

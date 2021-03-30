@@ -163,4 +163,16 @@ class ServersController < ApplicationController
       redirect_to server_path(@server) + '/edit'
     end
   end
+
+  def result
+    QueryServerJob.perform_now params['bedrock_ip']
+
+    @info = Rails.cache.fetch("status/#{params['bedrock_ip']}")
+
+    return if @info.offline?
+
+    @version_info = @info.version.split(' ')[1].gsub(/\(|\)/, "")
+    @branch = @version_info.split('-')[1...-1].join("-")
+    @commit = @version_info.split('-').last
+  end
 end
