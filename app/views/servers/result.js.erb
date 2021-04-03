@@ -1,0 +1,15 @@
+document.getElementById("responseData").hidden = false;
+
+document.getElementById("offlineButton").hidden = true;
+document.getElementById("onlineButton").hidden = true;
+document.getElementById("onlineOnlyData").hidden = true;
+
+<% if @info.offline? %>
+document.getElementById("offlineButton").hidden = false;
+<% else %>
+document.getElementById("onlineButton").hidden = false;
+document.getElementById("onlineOnlyData").hidden = false;
+document.getElementById("geyserVersion").innerHTML = '<%= link_to @version_info, "https://github.com/GeyserMC/Geyser/compare/#{@commit}...#{@branch}" %>';
+document.getElementById("bedrockVersion").innerText = "<%= @info.version.split(' ').last %>";
+document.getElementById("playersCount").innerText = "<%= @info.players %> / <%= @info.max_players %>";
+<% end %>

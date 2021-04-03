@@ -22,7 +22,7 @@ class ServersController < ApplicationController
     return if @info.offline?
 
     @version_info = @info.version.split(' ')[1].gsub(/\(|\)/, "")
-    @branch = @version_info.split('-')[1]
+    @branch = @version_info.split('-')[1...-1].join("-")
     @commit = @version_info.split('-').last
   end
 
@@ -185,5 +185,22 @@ class ServersController < ApplicationController
       flash[:review] = params['review']
       redirect_to "/servers/#{@server.id}"
     end
+  end
+
+  def result
+    ip = params['bedrock_ip'] + ":" + params['bedrock_port']
+    unless ip.split(':').length == 2
+      ip = "#{ip}:19132"
+    end
+
+    QueryServerJob.perform_now ip
+
+    @info = Rails.cache.fetch("status/#{ip}")
+
+    return if @info.offline?
+
+    @version_info = @info.version.split(' ')[1].gsub(/\(|\)/, "")
+    @branch = @version_info.split('-')[1...-1].join("-")
+    @commit = @version_info.split('-').last
   end
 end
