@@ -34,7 +34,7 @@ class QueryServerJob < ApplicationJob
         resp[0] = resp[0].sub("\x00\x00\x00\x00\x01", "")
         #resp[0] = resp[0][4..-1]  # trim leading 0xffffffff
       end
-    rescue IOError, SystemCallError
+    rescue IOError, SystemCallError, SocketError, ArgumentError
       # Ignored
     ensure
       sock.close if sock
