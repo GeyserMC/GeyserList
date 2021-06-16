@@ -176,6 +176,13 @@ class ServersController < ApplicationController
 
     return if @info.offline?
 
+    if @info.version.split(' ').length < 2
+      @version_info = "Unknown"
+      @branch = "Unknown"
+      @commit = "Unknown"
+      return
+    end
+
     @version_info = @info.version.split(' ')[1].gsub(/\(|\)/, "")
     @branch = @version_info.split('-')[1...-1].join("-")
     @commit = @version_info.split('-').last
