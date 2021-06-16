@@ -187,6 +187,10 @@ class ServersController < ApplicationController
     end
   end
 
+  def remove_review
+
+  end
+
   def result
     ip = params['bedrock_ip'] + ":" + params['bedrock_port']
     unless ip.split(':').length == 2

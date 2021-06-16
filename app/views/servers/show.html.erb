@@ -112,7 +112,7 @@
         <p>Total Reviews: <%= @reviews.length %></p>
         <p>Average Rating: <%= ratings = @reviews.map(&:rating); ratings.sum.to_f/ratings.count %> / 5.0</p>
         <% if @reviews.map(&:user_id).include?(@user.id) %>
-          <p>You have already reviewed this server! Click here to go to it.</p>
+          <p>You have already reviewed this server! <%= link_to "Click here to go to it", "#review_by_#{@user.id}" %></p>
         <% else %>
           <div id="review_server" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
