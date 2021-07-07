@@ -18,5 +18,11 @@ Rails.application.routes.draw do
   post 'registration/complete', to: 'auth#register'
   get 'logout', to: 'auth#logout'
 
+  scope 'mod' do
+    get 'reports', to: 'mod#reports'
+    get 'users', to: 'mod#users'
+    get 'log', to: 'mod#log'
+  end
+
   get 'api/v1/server/:id', to: 'api#get_server'
 end
