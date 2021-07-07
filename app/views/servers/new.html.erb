@@ -1,23 +1,23 @@
 <section class="section">
   <div class="container">
     <br>
-    <h2>New Server</h2>
+    <h2><%= t('.new_server') %></h2>
     <%= form_with(model: @server) do |f| %>
       <div class="form-group">
-        <%= f.label(:name, "Name") %>
-        <%= f.text_field(:name, value: flash[:server]['name'], class: "form-control", required: true, placeholder: "Enter Server Name") %>
+        <%= f.label(:name, t('name')) %>
+        <%= f.text_field(:name, value: flash[:server]['name'], class: "form-control", required: true, placeholder: t('.enter_server_name')) %>
       </div>
       <div class="form-group">
-        <%= f.label(:name, "Description") %>
-        <%= f.text_area(:description, value: flash[:server]['description'], class: "form-control", placeholder: "Your server's description. Markdown supported.", size: "24x6") %>
+        <%= f.label(:name, t('description')) %>
+        <%= f.text_area(:description, value: flash[:server]['description'], class: "form-control", placeholder: t('.enter_description'), size: "24x6") %>
       </div>
       <div class="form-group">
-        <%= f.label(:name, "Java Server IP") %>
-        <%= f.text_field(:java_ip, value: flash[:server]['java_ip'], class: "form-control", required: true, placeholder: "Java Server IP") %>
+        <%= f.label(:name, t('java_ip')) %>
+        <%= f.text_field(:java_ip, value: flash[:server]['java_ip'], class: "form-control", required: true, placeholder: t('java_ip')) %>
       </div>
       <div class="form-group">
-        <%= f.label(:name, "Geyser IP") %>
-        <%= f.text_field(:bedrock_ip, value: flash[:server]['bedrock_ip'], class: "form-control", required: true, placeholder: "Geyser IP") %>
+        <%= f.label(:name, t('geyser_ip')) %>
+        <%= f.text_field(:bedrock_ip, value: flash[:server]['bedrock_ip'], class: "form-control", required: true, placeholder: t('geyser_ip')) %>
       </div>
       <div class="form-group">
         <%= f.label(:name, "Website (Optional)") %>
@@ -28,7 +28,7 @@
         <%= f.text_field(:discord, value: flash[:server]['discord'], class: "form-control", placeholder: "Discord Server Invite (Optional)") %>
       </div>
       
-      <%= f.submit("Create", class: "btn btn-primary") %>
+      <%= f.submit(t('submit'), class: "btn btn-primary") %>
     <% end %>
     <br>
     <script>

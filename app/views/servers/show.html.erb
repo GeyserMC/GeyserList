@@ -7,17 +7,17 @@
       <div class="col col-12 col-md-auto mr-md-1 mb-2 mb-md-0">
         <div class="card">
           <div class="card-header text-white bg-primary">
-            Server Information
+            <%= t('server_information') %>
           </div>
           <div class="table-responsive">
             <table class="table mb-0">
               <tbody>
                 <tr>
-                  <th scope="row">Owner</th>
+                  <th scope="row"><%= t('owner') %></th>
                   <td><%= @owner.username %> <%= @owner.verified_icon %></td>
                 </tr>
                 <tr>
-                  <th scope="row">Bedrock IP</th>
+                  <th scope="row"><%= t('geyser_ip') %></th>
                   <td>
                     <div class="input-group">
                       <input type="text" class="form-control" id="input-bedrock-ip" placeholder="Server IP" aria-label="Server IP" aria-describedby="button-bedrock-ip" value="<%= @server.bedrock_ip %>" readonly>
@@ -29,7 +29,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">Java IP</th>
+                  <th scope="row"><%= t('java_ip') %></th>
                   <td>
                     <div class="input-group">
                       <input type="text" class="form-control" id="input-java-ip" placeholder="Server IP" aria-label="Server IP" aria-describedby="button-java-ip" value="<%= @server.java_ip %>" readonly>
@@ -41,49 +41,49 @@
                 </tr>
                 <% if @info.offline? %>
                 <tr>
-                  <th scope="row">Status</th>
+                  <th scope="row"><%= t('status') %></th>
                   <td><h4 class="mb-0"><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="As of <%= @info.timestamp %>">Offline</span></h4></td>
                 </tr>
                 <% else %>
                 <tr>
-                  <th scope="row">Status</th>
+                  <th scope="row"><%= t('status') %></th>
                   <td><h4 class="mb-0"><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="As of <%= @info.timestamp %>">Online</span></h4></td>
                 </tr>
                 <tr>
-                  <th scope="row">Players</th>
+                  <th scope="row"><%= t('players') %></th>
                   <td><%= @info.players %> / <%= @info.max_players %></td>
                 </tr>
                 <tr>
-                  <th scope="row">Bedrock Version</th>
+                  <th scope="row"><%= t('bedrock_version') %></th>
                   <td><%= @info.version.split(' ').last %></td>
                 </tr>
                 <tr>
-                  <th scope="row">Geyser Version</th>
+                  <th scope="row"><%= t('geyser_version') %></th>
                   <td><%= link_to @version_info, "https://github.com/GeyserMC/Geyser/compare/#{@commit}...#{@branch}" %></a></td>
                 </tr>
                 <% end %>
                 <% if @server.discord? %>
                 <tr>
-                  <th scope="row">Discord</th>
+                  <th scope="row"><%= t('discord') %></th>
                   <td><%= link_to @server.discord, @server.discord %></td>
                 </tr>
                 <% end %>
                 <% if @server.website? %>
                 <tr>
-                  <th scope="row">Website</th>
+                  <th scope="row"><%= t('website') %></th>
                   <td><%= link_to @server.website, @server.website %></td>
                 </tr>
                 <% end %>
                 <% if session[:id] == @server.user_id %>
                 <tr>
-                  <th scope="row">Last Queried</th>
-                  <td><%= distance_of_time_in_words_to_now @info.timestamp %> ago - <%= link_to "Re-Query", "/servers/#{params['id']}/query", method: :post %></td>
+                  <th scope="row"><%= t('last_queried') %></th>
+                  <td><%= distance_of_time_in_words_to_now @info.timestamp %> ago - <%= link_to t('re_query'), "/servers/#{params['id']}/query", method: :post %></td>
                 </tr>
                 <tr>
-                  <th scope="row">Actions</th>
+                  <th scope="row"><%= t('actions') %></th>
                   <td>
-                    <%= link_to "Edit", "/servers/#{params['id']}/edit" %> -
-                    <%= link_to "Delete", server_path, method: :delete, data: { confirm: 'Are you sure? This cannot be undone.' } %>
+                    <%= link_to t('edit'), "/servers/#{params['id']}/edit" %> -
+                    <%= link_to t('delete'), server_path, method: :delete, data: { confirm: t('delete_confirm') } %>
                   </td>
                 </tr>
                 <% end %>
@@ -94,11 +94,11 @@
       <div class="col ml-md-1">
         <div class="card">
           <div class="card-header text-white bg-primary">
-            Description
+            <%= t('description') %>
           </div>
           <div class="card-body">
             <% unless @server.banner.blank? %>
-            <img src="<%=  @server.banner  %>" alt="Server Banner"/>
+            <img src="<%= @server.banner %>" alt="<%= t('server_banner') %>"/>
             <% end %>
             <%= raw @server.rendered_description %>
           </div>

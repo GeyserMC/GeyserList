@@ -1,8 +1,8 @@
 <section class="section">
   <div class="jumbotron jumbotron-fluid">
     <div class="container">
-      <h1 class="display-4">idk some title?</h1>
-      <p class="lead">Some 10/10 content?</p>
+      <h1 class="display-4"><%= t('.title') %></h1>
+      <p class="lead"><%= t('.subtitle') %></p>
     </div>
   </div>
   <div class="container">
@@ -10,11 +10,11 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th scope="col">Rank</th>
-            <th scope="col">Name</th>
-            <th scope="col">Geyser IP</th>
-            <th scope="col" class="text-center">Players</th>
-            <th scope="col" class="text-center">Status</th>
+            <th scope="col"><%= t('rank') %></th>
+            <th scope="col"><%= t('name') %></th>
+            <th scope="col"><%= t('geyser_ip') %></th>
+            <th scope="col" class="text-center"><%= t('players') %></th>
+            <th scope="col" class="text-center"><%= t('status') %></th>
           </tr>
         </thead>
         <tbody>
@@ -42,10 +42,10 @@
             <%= info = server.status;nil %>
             <% if info.offline? %>
               <td class="align-middle text-center">-</td>
-              <td class="align-middle text-center"><h4 class="mb-0"><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="As of soon">Offline</span></h4></td>
+              <td class="align-middle text-center"><h4 class="mb-0"><span class="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="As of soon"><%= t('offline') %></span></h4></td>
             <% else %>
               <td class="align-middle text-center"><%= info.players %> / <%= info.max_players %></td>
-              <td class="align-middle text-center"><h4 class="mb-0"><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="As of <%= info.timestamp %>">Online</span></h4></td>
+              <td class="align-middle text-center"><h4 class="mb-0"><span class="badge badge-success" data-toggle="tooltip" data-placement="bottom" title="As of <%= info.timestamp %>"><%= t('online') %></span></h4></td>
             <% end %>
           </tr>
         <% end %>
