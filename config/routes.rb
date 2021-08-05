@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   get "/", to: "servers#index"
-  get 'servers/test', to: 'servers#tester'
-  post 'servers/test', to: 'servers#result'
-  resources :servers
-  post 'servers/:id/query', to: 'servers#requery'
-  post 'servers/:id/review', to: 'servers#review'
+
+  resources :servers do
+    get 'test', to: 'servers#tester'
+    post 'test', to: 'servers#result'
+    post ':id/query', to: 'servers#requery'
+    resources :reviews, only: [:create, :destroy]
+  end
 
   scope 'login' do
     get '', to: 'auth#login'

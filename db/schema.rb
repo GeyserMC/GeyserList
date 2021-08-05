@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2021_07_07_212747) do
 
   create_table "integrations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -18,13 +18,24 @@ ActiveRecord::Schema.define(version: 0) do
     t.text "data", null: false
   end
 
+  create_table "reviews", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "user_id"
+    t.text "description"
+    t.integer "rating"
+    t.bigint "server_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["server_id"], name: "index_reviews_on_server_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
   create_table "servers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "user_id", null: false
     t.text "name", null: false
     t.text "description", null: false
     t.text "banner"
-    t.string "java_ip", limit: 32, null: false
-    t.string "bedrock_ip", limit: 32, null: false
+    t.string "java_ip", limit: 128, null: false
+    t.string "bedrock_ip", limit: 128, null: false
     t.text "discord"
     t.text "website"
     t.timestamp "created", default: -> { "current_timestamp()" }, null: false

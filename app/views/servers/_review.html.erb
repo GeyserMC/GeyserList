@@ -11,16 +11,19 @@
       <i class="fas fa-ellipsis-h"></i>
     </a>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <%= link_to "Delete", "/review/:id/delete",
-                  method: :delete,
-                  data: { confirm: "Are you sure you want to delete this review? Please only delete it if it violates the rules." },
-                  class: 'dropdown-item',
-                  style: 'color: red' %>
+      <% if e.user_id == @user.id || @user.moderator? %>
+        <%= link_to "Delete", "/servers/#{params['id']}/reviews/#{e.id}",
+                    method: :delete,
+                    data: { confirm: "Are you sure you want to delete this review?#{" Please only delete it if it violates the rules." if @user.moderator?}" },
+                    class: 'dropdown-item',
+                    style: 'color: red' %>
+        <%= link_to "Copy Link", request.url + "#review_by_#{e.user_id}", class: 'dropdown-item' %>
+      <% end %>
     </div>
   </div>
   <div class="card-body">
     <blockquote class="blockquote mb-0">
-      <p><%= e.review %></p>
+      <p><%= e.description %></p>
     </blockquote>
   </div>
 </div>

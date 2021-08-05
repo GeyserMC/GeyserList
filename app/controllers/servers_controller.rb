@@ -167,30 +167,6 @@ class ServersController < ApplicationController
     end
   end
 
-  def review
-    @server = Server.find(params[:id])
-    @user = User.find(session[:id])
-
-    if @server.nil? || @user.nil?
-      flash[:modal_js] = "Failed to leave review: Server or User was nil!"
-      redirect_to server_path("/servers/#{params['id']}")
-      return
-    end
-
-    review = Review.create(server_id: @server.id, user_id: @user.id, rating: params['rating'], review: params['review'])
-    if review.valid?
-      redirect_to "/servers/#{@server.id}"
-    else
-      flash[:modal_js] = review.errors.full_messages.join("<br>")
-      flash[:review] = params['review']
-      redirect_to "/servers/#{@server.id}"
-    end
-  end
-
-  def remove_review
-
-  end
-
   def result
     ip = params['bedrock_ip'] + ":" + params['bedrock_port']
     unless ip.split(':').length == 2
