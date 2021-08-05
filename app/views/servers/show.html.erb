@@ -127,7 +127,7 @@
                   <form id="responseform" action="/servers/<%= @server.id %>/review" method="post">
                     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
                     <h3 id="rating">Rating</h3>
-                    <p>If your rating differs from 5, pleace select your prefered rating.</p>
+                    <p>If your rating differs from 5, please select your preferred rating.</p>
                     <p>
                       <span id="stars" style="z-index: 10000000;">
                         <% (1..5).each do |i| %>
