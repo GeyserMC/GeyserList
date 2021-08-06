@@ -1,6 +1,6 @@
 <section class="section">
   <div class="container">
-    <br>      
+    <br>
     <h1><%= @server.name %></h1>
 
     <div class="row">
@@ -110,53 +110,56 @@
       <div class="col">
         <h2>Reviews</h2>
         <p>Total Reviews: <%= @reviews.length %></p>
-        <p>Average Rating: <%= ratings = @reviews.map(&:rating); ratings.sum.to_f/ratings.count %> / 5.0</p>
-        <% if @reviews.map(&:user_id).include?(@user.id) %>
+        <% if @average_rating %>
+          <p>Average Rating: <%= @average_rating %> / 5.0</p>
+        <% end %>
+        <% if @current_review %>
           <p>You have already reviewed this server! <%= link_to "Click here to go to it", "#review_by_#{@user.id}" %></p>
-        <% else %>
-          <div id="review_server" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Reviewing <%= @server.name %></h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form id="responseform" action="/servers/<%= @server.id %>/reviews" method="post">
-                    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-                    <h3 id="rating">Rating</h3>
-                    <p>If your rating differs from 5, please select your preferred rating.</p>
-                    <p>
-                      <span id="stars" style="z-index: 10000000;">
-                        <% (1..5).each do |i| %>
-                          <span id="star<%= i %>" onclick="updateStars(<%= i %>)" class="fa fa-star checked" style="font-size: 150%;"></span>
-                        <% end %>
-                      </span>
-                    </p>
+        <% else#if @server.user_id != session[:id] %>
+          <p><button class="btn btn-primary" data-toggle="modal" data-target="#review_server">Leave a Review</button></p>
+        <% end %>
+        <div id="review_server" class="modal fade" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Reviewing <%= @server.name %></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <%= form_with method: @current_review ? :patch : :post, id: "responseform", url: "/servers/#{@server.id}/reviews/#{@current_review ? @current_review.id : ""}" do %>
+                  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                  <h3 id="rating">Rating</h3>
+                  <p>If your rating differs from 5, please select your preferred rating.</p>
+                  <p>
+                    <span id="stars" style="z-index: 10000000;">
+                      <% (1..5).each do |i| %>
+                        <span id="star<%= i %>" onclick="updateStars(<%= i %>)" class="fa fa-star <%= 'checked' if @current_review ? @current_review.rating >= i : true %>" style="font-size: 150%;"></span>
+                      <% end %>
+                    </span>
+                  </p>
 
-                    <input id="ratingInput" type="number" min="1" max="5" name="rating" aria-describedby="rating" required hidden value="5" />
-                    <h3>Comments</h3>
-                    <p>
-                      Leave comments about the server. Optional, but if you decide to, your input must be between 50 and 2000 characters long.
-                      Reviews containing any spam or filler characters will be removed.
-                    </p>
-                    <textarea type="text" class="form-control" id="response" name="review" placeholder="Enter Review" minlength="50" maxlength="2000"><%= flash[:review] %></textarea>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button form="responseform" id="responsebutton" type="submit" class="btn btn-success">Submit</button>
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                </div>
+                  <input id="ratingInput" type="number" min="1" max="5" name="rating" aria-describedby="rating" required hidden value="5"/>
+                  <h3>Comments</h3>
+                  <p>
+                    Leave comments about the server. Optional, but if you decide to, your input must be between 50 and
+                    2000 characters long.
+                    Reviews containing any spam or filler characters will be removed.
+                  </p>
+                  <textarea type="text" class="form-control" id="response" name="review" placeholder="Enter Review" minlength="50" maxlength="2000"><%= @current_review ? @current_review.description : flash[:review] %></textarea>
+                <% end %>
+              </div>
+              <div class="modal-footer">
+                <button form="responseform" id="responsebutton" type="submit" class="btn btn-success">Submit</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
               </div>
             </div>
           </div>
-          <p><button class="btn btn-primary" data-toggle="modal" data-target="#review_server">Leave a Review</button></p>
-        <% end unless @user.nil? || @user.id == @server.user_id %>
+        </div>
 
         <% @reviews.reverse.each_with_index do |e, i| %>
-          <%= render partial: 'review', locals: { e: e, options: true, i: i, profile: @profiles.find{|p| p.id == e.user_id}, id: "#{e.server_id}jumb" } %>
+          <%= render partial: 'review', locals: { e: e, options: true, i: i, profile: @profiles.find { |p| p.id == e.user_id }, id: "#{e.server_id}jumb" } %>
         <% end %>
       </div>
     </div>

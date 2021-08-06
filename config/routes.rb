@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   resources :servers do
     get 'test', to: 'servers#tester'
     post 'test', to: 'servers#result'
-    post ':id/query', to: 'servers#requery'
-    resources :reviews, only: [:create, :destroy]
+    post 'query', to: 'servers#requery'
+    resources :reviews, only: [:create, :destroy, :update]
   end
 
   scope 'login' do
