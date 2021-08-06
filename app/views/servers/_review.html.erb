@@ -11,6 +11,11 @@
       <i class="fas fa-ellipsis-h"></i>
     </a>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <% if e.user_id == @user.id %>
+        <%= tag.a("#", 'data-toggle': "modal", 'data-target': '#review_server', class: 'dropdown-item') do %>
+          <i class="fas fa-edit"></i> Edit
+        <% end %>
+      <% end %>
       <% if e.user_id == @user.id || @user.moderator? %>
         <%= link_to "Delete", "/servers/#{params['id']}/reviews/#{e.id}",
                     method: :delete,
