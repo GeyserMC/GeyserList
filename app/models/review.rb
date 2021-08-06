@@ -1,9 +1,13 @@
+# The review model stores and handles reviews
+# These belong to servers, so their relation is set as such.
 class Review < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
+  # Relations
   belongs_to :user
   belongs_to :server
 
+  # Validations
   validates :rating, :user_id, :server_id, :presence => true
   validates :rating, :numericality => { only_integer: true, :greater_than_or_equal_to => 1, :less_than_or_equal_to => 5 }
   validates :user_id, uniqueness: { scope: :server_id, message: "You already have a review for this server." }
