@@ -32,11 +32,11 @@
     <%= form_with url: "/servers/test" do |f| %>
       <div class="form-group">
         <%= f.label(:name, "Server IP", id: "geyserIpLabel") %>
-        <%= f.text_field(:bedrock_ip, class: "form-control", required: true, placeholder: "IP", maxlength: 35, onchange: "movePortIfNeeded()") %>
+        <%= f.text_field(:bedrock_ip, value: params[:ip], class: "form-control", required: true, placeholder: "IP", maxlength: 35, onchange: "movePortIfNeeded()") %>
       </div>
       <div class="form-group">
         <%= f.label(:name, "Server Port", id: "geyserPortLabel") %>
-        <%= f.text_field(:bedrock_port, class: "form-control", required: true, placeholder: "Port", type: 'number', max: 65535, min: 1, value: 19132) %>
+        <%= f.text_field(:bedrock_port, value: params[:port] || 19132, class: "form-control", required: true, placeholder: "Port", type: 'number', max: 65535, min: 1) %>
       </div>
 
       <%= f.submit("Submit", class: "btn btn-primary") %>
