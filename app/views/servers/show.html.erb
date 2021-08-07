@@ -158,8 +158,8 @@
           </div>
         </div>
 
-        <% @reviews.reverse.each_with_index do |e, i| %>
-          <%= render partial: 'review', locals: { e: e, options: true, i: i, username: @profiles.find { |p| p[0] == e.user_id }[1] } %>
+        <% @reviews.reverse.each_with_index do |review| %>
+          <%= render partial: 'review', locals: { review: review, options: true, username: @profiles.find { |p| p[0] == review.user_id }[1] } %>
         <% end %>
       </div>
     </div>
