@@ -115,7 +115,7 @@
         <% end %>
         <% if @current_review %>
           <p>You have already reviewed this server! <%= link_to "Click here to go to it", "#review_by_#{@user.id}" %></p>
-        <% else#if @server.user_id != session[:id] %>
+        <% elsif @server.user_id != session[:id] %>
           <p><button class="btn btn-primary" data-toggle="modal" data-target="#review_server">Leave a Review</button></p>
         <% end %>
         <div id="review_server" class="modal fade" tabindex="-1" role="dialog">
