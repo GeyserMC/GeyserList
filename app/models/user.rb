@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   validates :username, :access_token, presence: true
   validates :username, uniqueness: { message: "An account with that name already exists!" }
-  
+
   include FlagShihTzu
 
   has_flags 1 => :moderator, # 1
