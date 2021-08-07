@@ -143,8 +143,8 @@
                   <input id="ratingInput" type="number" min="1" max="5" name="rating" aria-describedby="rating" required hidden value="5"/>
                   <h3>Comments</h3>
                   <p>
-                    Leave comments about the server. Optional, but if you decide to, your input must be between 50 and
-                    2000 characters long.
+                    Leave comments about the server. Optional, but if you decide to,
+                    your input must be between 50 and 2000 characters long.
                     Reviews containing any spam or filler characters will be removed.
                   </p>
                   <textarea type="text" class="form-control" id="response" name="review" placeholder="Enter Review" minlength="50" maxlength="2000"><%= @current_review ? @current_review.description : flash[:review] %></textarea>
@@ -159,7 +159,7 @@
         </div>
 
         <% @reviews.reverse.each_with_index do |e, i| %>
-          <%= render partial: 'review', locals: { e: e, options: true, i: i, profile: @profiles.find { |p| p.id == e.user_id }, id: "#{e.server_id}jumb" } %>
+          <%= render partial: 'review', locals: { e: e, options: true, i: i, username: @profiles.find { |p| p[0] == e.user_id }[1] } %>
         <% end %>
       </div>
     </div>

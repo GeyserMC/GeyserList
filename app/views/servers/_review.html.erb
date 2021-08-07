@@ -1,6 +1,6 @@
 <div id="review_by_<%= e.user_id %>" class="card <%= 'border-danger' if e.rating == 1 %> <%= 'border-success' if e.rating == 5 %> mb-3">
   <div class="card-header">
-    <a href="/profile/<%= profile.username %>"><%= profile.username %></a>
+    <a href="/profile/<%= username %>"><%= username %></a>
     &#xb7; <%= e.time_ago %> &#xb7;
     <span style="display: inline">
       <% (1..5).each do |j| %>
@@ -17,12 +17,12 @@
         <% end %>
       <% end %>
       <% if e.user_id == @user.id || @user.moderator? %>
-        <%= link_to "Delete", "/servers/#{params['id']}/reviews/#{e.id}",
+        <%= link_to raw(tag.i(class: 'fas fa-trash') + " Delete"), "/servers/#{params['id']}/reviews/#{e.id}",
                     method: :delete,
                     data: { confirm: "Are you sure you want to delete this review?#{" Please only delete it if it violates the rules." if @user.moderator?}" },
                     class: 'dropdown-item',
                     style: 'color: red' %>
-        <%= link_to "Copy Link", request.url + "#review_by_#{e.user_id}", class: 'dropdown-item' %>
+        <%= link_to raw(tag.i(class: 'fas fa-link') + " Permalink"), request.url + "#review_by_#{e.user_id}", class: 'dropdown-item' %>
       <% end %>
     </div>
   </div>
