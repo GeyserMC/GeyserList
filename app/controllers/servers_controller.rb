@@ -22,7 +22,7 @@ class ServersController < ApplicationController
     @profiles = User.where(id: @reviews.map(&:user_id)).pluck(:id, :username)
     ratings = @reviews.map(&:rating)
     @average_rating = ratings.empty? ? nil : ratings.sum.to_f/ratings.count
-    @current_review = @reviews.find { |r| r.user_id == @user.id }
+    @current_review = @reviews.find { |r| r.user_id == @user.id } if @user
 
     return if @info.offline?
 
