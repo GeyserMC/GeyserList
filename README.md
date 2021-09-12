@@ -20,7 +20,9 @@ To access the official GeyserList instance, you can go to https://servers.geyser
 
 ## What's left to be added
 
-- Check PR page lol
+We're constantly adding and improving GeyserList. If you want to suggest a feature, feel free to do so [here](https://github.com/GeyserMC/GeyserList/issues/new?assignees=&labels=feature+request&template=feature_request.yml)
+
+If you want to help contribute a feature, feel free to review our contribution guidelines below and submit a Pull Request.
 
 ## Compiling and Contributing
 

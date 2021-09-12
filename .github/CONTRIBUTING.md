@@ -10,19 +10,19 @@ If you want to install or help develop, you'll need the following information. I
 
 ### Ruby version
 
-GeyserList requires Ruby 2.7.2, which can be installed via [rvm](https://rvm.io) on UNIX systems or RubyForWindows for Windows.
+GeyserList requires at least Ruby 2.7.2, which can be installed via [rvm](https://rvm.io) on UNIX systems, Homebrew's Ruby 3 for M1 Macs, or RubyForWindows for Windows.
 
 ### System dependencies
 
 You'll need the latest version of Node and Yarn installed to install JS dependencies. You'll need Bundler gem to install Ruby dependencies.
 
 Yarn can be installed by running the following:
-```
+```sh
 npm install -g yarn
 ```
 
 To install the necessary dependencies, run the following:
-```
+```sh
 yarn install --check-files
 bundle install
 ```
@@ -35,10 +35,10 @@ The credentials stored here are encrypted and secured, so you'll have to wipe th
 
 To edit the credentials (you'll likely only need `development`), run the following command:
 
-```
+```sh
 rails credentials:edit -e development
 ```
-*An editor supporting the `--wait` flag may be required. Editors such as VIM, Atom, and mate support this.*
+*An editor supporting the `--wait` flag may be required. Editors such as VIM, Atom, mate, and any JetBrains IDE support this.*
 *To utilize them, run `EDITOR="editor --wait"` before the command.*
 
 It may ask you to wipe the file and start over to generate a key, agree to this as one is not provided.
@@ -46,12 +46,14 @@ It may ask you to wipe the file and start over to generate a key, agree to this 
 The credentials file is as such:
 
 ```yml
-db: # Database information (Required)
+# Database information (Required)
+db:
   host: # URL for your Database, excluding port
   user: # Username
   pass: # Password
 
-crypt: # Database encryption (Required)
+# Database encryption (Required)
+crypt:
   key: # Encryption key (a random set of alphanumeric characters)
   salt: # Encryption salt (a random set of alphanumeric characters)
 
