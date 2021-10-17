@@ -52,4 +52,18 @@ document.addEventListener('turbolinks:load', function () {
   window.addServer = function (name, ip) {
     window.location = 'minecraft://?addExternalServer=' + encodeURIComponent(name) + '|' + ip
   }
+
+  window.updateStars = function (rating) {
+    if (rating > 5 || rating < 1) {
+      return;
+    }
+    for (let i = 1; i <= 5; i++) {
+      if (i <= rating) {
+        document.getElementById("star" + i).setAttribute('class', 'fa fa-star checked');
+      } else {
+        document.getElementById("star" + i).setAttribute('class', 'fa fa-star');
+      }
+    }
+    document.getElementById("ratingInput").value = rating
+  }
 })
