@@ -1,0 +1,57 @@
+<section class="section">
+  <div class="container">
+    <br>
+    <h2>Server Tester</h2>
+    <p>Enter your Geyser/Bedrock IP below to see if it's working properly before adding it to the list.</p>
+    <p>Please note that only servers running Geyser will return a result.</p>
+    <p>If no port is specified, it will default to <code>19132</code>.</p>
+
+    <div id="responseData" hidden>
+      <h3>Response Data</h3>
+
+      <div>
+        <h4 class="mb-0">
+          <span id="offlineButton" hidden><span class="badge badge-danger">Offline</span></span>
+          <span id="onlineButton" hidden><span class="badge badge-success">Online</span></span>
+        </h4>
+      </div>
+
+      <br>
+
+      <p id="onlineOnlyData" hidden>
+        Geyser Version: <span id="geyserVersion"></span><br>
+        Bedrock Version: <span id="bedrockVersion"></span><br>
+        Players: <span id="playersCount"></span>
+      </p>
+
+      <h4>Try another?</h4>
+    </div>
+
+    <p>Enter your Geyser address info below:</p>
+
+    <%= form_with url: "/servers/test" do |f| %>
+      <div class="form-group">
+        <%= f.label(:name, "Server IP", id: "geyserIpLabel") %>
+        <%= f.text_field(:bedrock_ip, value: params[:ip], class: "form-control", required: true, placeholder: "IP", maxlength: 35, onchange: "movePortIfNeeded()") %>
+      </div>
+      <div class="form-group">
+        <%= f.label(:name, "Server Port", id: "geyserPortLabel") %>
+        <%= f.text_field(:bedrock_port, value: params[:port] || 19132, class: "form-control", required: true, placeholder: "Port", type: 'number', max: 65535, min: 1) %>
+      </div>
+
+      <%= f.submit("Submit", class: "btn btn-primary") %>
+    <% end %>
+  </div>
+</section>
+
+<script>
+  function movePortIfNeeded() {
+      let ip = document.getElementById("bedrock_ip");
+      let port = document.getElementById("bedrock_port");
+
+      if (ip.value.includes(":")) {
+          port.value = ip.value.split(":")[1]
+          ip.value = ip.value.split(":")[0]
+      }
+  }
+</script>
