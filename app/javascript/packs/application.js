@@ -4,10 +4,15 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-require('@rails/ujs').start()
-require('turbolinks').start()
-require('@rails/activestorage').start()
-require('channels')
+import Rails from "@rails/ujs"
+import Turbolinks from "turbolinks"
+import * as ActiveStorage from "@rails/activestorage"
+import "channels"
+
+Rails.start()
+Turbolinks.start()
+ActiveStorage.start()
+
 require('bootstrap/dist/js/bootstrap')
 require('@fortawesome/fontawesome-free/js/all')
 
@@ -51,5 +56,19 @@ document.addEventListener('turbolinks:load', function () {
 
   window.addServer = function (name, ip) {
     window.location = 'minecraft://?addExternalServer=' + encodeURIComponent(name) + '|' + ip
+  }
+
+  window.updateStars = function (rating) {
+    if (rating > 5 || rating < 1) {
+      return;
+    }
+    for (let i = 1; i <= 5; i++) {
+      if (i <= rating) {
+        document.getElementById("star" + i).setAttribute('class', 'fa fa-star checked');
+      } else {
+        document.getElementById("star" + i).setAttribute('class', 'fa fa-star');
+      }
+    }
+    document.getElementById("ratingInput").value = rating
   }
 })

@@ -5,7 +5,7 @@ class ServersController < ApplicationController
 
   def show
     @server = Server.find_by(id: params[:id])
-    
+
     if @server.nil?
       respond_to do |format|
         format.html { render file: "#{Rails.root}/public/404.html", status: 404, :layout => false }
@@ -15,6 +15,14 @@ class ServersController < ApplicationController
 
     @owner = @server.user
     @info = @server.status
+    @user = User.find_by(id: session[:id])
+
+    # Get reviews and store data where appropriate
+    @reviews = Review.where(server_id: @server.id)
+    @profiles = User.where(id: @reviews.map(&:user_id)).pluck(:id, :username)
+    ratings = @reviews.map(&:rating)
+    @average_rating = ratings.empty? ? nil : ratings.sum.to_f/ratings.count
+    @current_review = @reviews.find { |r| r.user_id == @user.id } if @user
 
     return if @info.offline?
 
@@ -87,9 +95,9 @@ class ServersController < ApplicationController
   end
 
   def requery
-    server = Server.find_by(id: params['id'])
+    server = Server.find(params['server_id'])
 
-    redirect_to "/servers/#{params['id']}"
+    redirect_to "/servers/#{params['server_id']}"
 
     if server.nil?
       flash[:modal_js] = "Server doesn't exist. Stop breaking site pls"
