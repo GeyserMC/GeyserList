@@ -15,7 +15,6 @@ class ServersController < ApplicationController
 
     @owner = @server.user
     @info = @server.status
-    @user = User.find_by(id: session[:id])
 
     # Get reviews and store data where appropriate
     @reviews = Review.where(server_id: @server.id)
