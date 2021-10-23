@@ -1,0 +1,11 @@
+<% content_for :extra_head do %>
+  <title>Home - GeyserList Mods</title>
+<% end %>
+
+<% content_for :header do %>
+  <h1>Hello, <%= @user.username %></h1>
+<% end %>
+
+<p>Welcome to the Mod Panel</p>
+
+<%= image_tag JSON.parse(RestClient.get("https://rory.cat/purr"))['url'], width: '600px' %>

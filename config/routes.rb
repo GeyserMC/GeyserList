@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get 'logout', to: 'auth#logout'
 
   scope 'mod' do
+    get '/', to: 'mod#index'
     get 'reports', to: 'mod#reports'
     get 'users', to: 'mod#users'
     get 'log', to: 'mod#log'
