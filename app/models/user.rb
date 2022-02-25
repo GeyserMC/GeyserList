@@ -17,9 +17,9 @@ class User < ApplicationRecord
     !Review.find_by(server_id: server.id, user_id: id).nil?
   end
 
-  def verified_icon
+  def verified_icon(size = 25)
     return unless verified?
 
-    ActionController::Base.helpers.image_tag "verified.png", style: 'margin-top: -5px'
+    ActionController::Base.helpers.image_tag "verified.png", style: 'margin-top: -5px', size: size
   end
 end

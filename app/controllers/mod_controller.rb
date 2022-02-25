@@ -2,6 +2,7 @@
 class ModController < ApplicationController
   # Middleware method to ensure user is here and has perms
   before_action :verify_perms
+
   def verify_perms
     # Verify the user exists and that they are a moderator
     # Simulate a 404 if they aren't authorized
@@ -20,5 +21,7 @@ class ModController < ApplicationController
     @users = User.all
   end
 
-
+  def reports
+    @reports = Report.open_reports
+  end
 end

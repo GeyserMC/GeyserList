@@ -1,0 +1,57 @@
+<% content_for :extra_head do %>
+  <title>Open Reports - GeyserList Mods</title>
+<% end %>
+<% content_for :header do %>
+  <h1>Reports</h1>
+<% end %>
+
+<p>Here you can find open reports, ready to be claimed.</p>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover <%= 'table-dark' if session[:dark_mode] %>">
+    <thead class="thead-dark">
+    <tr>
+      <th>Report ID</th>
+      <th>Status</th>
+      <th>Reporter</th>
+      <th>Type</th>
+      <th>Type ID</th>
+      <th>Report</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @reports.empty? %>
+      <tr>
+        <td colspan="6">No reports!</td>
+      </tr>
+    <% else %>
+      <% @reports.each do |e| %>
+        <tr>
+          <td><a href="/report/<%= e['reportid'] %>"><%= e['reportid'] %></a></td>
+          <td>
+            <button class="btn btn-<%=
+              case e['status'].to_i
+              when 0
+                'success'
+              when 1
+                'primary'
+              when 2
+                'danger'
+              else
+                'dark'
+              end
+            %>"><%= @status[e['status'].to_i] %></button>
+          </td>
+          <td><a href="/profile/<%= e['userid'] %>"><%= @profiles[e['userid']].username %></a>  <%=
+            if @profiles[e['userid']].verified?
+              image_tag 'verified.png', height: '20px', alt: 'This user is verified!', tooltip: 'This user is verified!', style: 'margin-bottom: 5px'
+            end
+          %></td>
+          <td><a href="/meme/<%= e['memeid'] %>"><%= e['memeid'] %></a></td>
+          <td>"<%= e['reason'] %>" - <%= e['description'] %></td>
+        </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+</div>
