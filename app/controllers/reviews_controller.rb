@@ -71,4 +71,13 @@ class ReviewsController < ApplicationController
     end
     redirect_to server_url(params[:server_id])
   end
+
+  def report
+    @review = Review.find_by(id: params[:id])
+    if @review == nil || @review.server_id != params[:server_id].to_i
+      flash[:modal_js] = "Failed to report review: review not found!"
+      redirect_to server_url(params[:server_id])
+      return
+    end
+  end
 end

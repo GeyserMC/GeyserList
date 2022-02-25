@@ -7,24 +7,28 @@
         <span class="fa fa-star <%= 'checked' if review.rating >= j %>"></span>
       <% end %>
     </span>
-    <a class="btn btn-sm float-right" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: flex;">
-      <i class="fas fa-ellipsis-h"></i>
-    </a>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <% if review.user_id == session[:id] %>
-        <%= tag.a("#", 'data-toggle': "modal", 'data-target': '#review_server', class: 'dropdown-item') do %>
-          <i class="fas fa-edit"></i> Edit
+    <% if options %>
+      <a class="btn btn-sm float-right" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: flex;">
+        <i class="fas fa-ellipsis-h"></i>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <% if review.user_id == session[:id] %>
+          <%= tag.a("#", 'data-toggle': "modal", 'data-target': '#review_server', class: 'dropdown-item') do %>
+            <i class="fas fa-edit"></i> Edit
+          <% end %>
+        <% else %>
+          <%= link_to raw(tag.i(class: 'fas fa-flag') + " Report"), "/servers/#{review.server_id}/reviews/#{review.id}/report", class: 'dropdown-item' %>
         <% end %>
-      <% end %>
-      <% if review.user_id == session[:id] || (@user && @user.moderator?) %>
-        <%= link_to raw(tag.i(class: 'fas fa-trash') + " Delete"), "/servers/#{params['id']}/reviews/#{review.id}",
-                    method: :delete,
-                    data: { confirm: "Are you sure you want to delete this review?#{" Please only delete it if it violates the rules." if @user.moderator?}" },
-                    class: 'dropdown-item',
-                    style: 'color: red' %>
-        <%= link_to raw(tag.i(class: 'fas fa-link') + " Permalink"), request.url + "#review_by_#{review.user_id}", class: 'dropdown-item' %>
-      <% end %>
-    </div>
+        <% if review.user_id == session[:id] || (@user && @user.moderator?) %>
+          <%= link_to raw(tag.i(class: 'fas fa-trash') + " Delete"), "/servers/#{params['id']}/reviews/#{review.id}",
+                      method: :delete,
+                      data: { confirm: "Are you sure you want to delete this review?#{" Please only delete it if it violates the rules." if @user.moderator?}" },
+                      class: 'dropdown-item',
+                      style: 'color: red' %>
+          <%= link_to raw(tag.i(class: 'fas fa-link') + " Permalink"), request.url + "#review_by_#{review.user_id}", class: 'dropdown-item' %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
   <div class="card-body">
     <blockquote class="blockquote mb-0">

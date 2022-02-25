@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     post 'test', to: 'servers#result'
     post 'query', to: 'servers#requery'
     resources :reviews, only: [:create, :destroy, :update]
+    get '/reviews/:id/report', to: 'reviews#report'
   end
 
   scope 'login' do
