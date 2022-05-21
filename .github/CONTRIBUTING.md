@@ -140,8 +140,8 @@ Each folder in here correspond to a controller and method (action). A folder is 
 
 `app/controllers/` - This is where the backend occurs. Code is ran here before it's passed to the view. This is in Ruby.
 
-`app/helpers/` - This is where "helper" methods go. Any methods here are in Ruby, for Ruby, and can be accessed in a view or controller.
+`app/helpers/` - This is where "helper" methods go. Any methods here are in Ruby, for Ruby, and can be accessed in any view for that helper.
 
-`app/models/` - This is where the database tables are used and access. Typically, these can be left alone unless you plan on adding tables.
+`app/models/` - This is where the database tables are used and accessed. Typically, these can be left alone unless you plan on adding tables.
 
 `config/routes.rb` - This is the route file. The typical structure for a line is `request_type "path", to: "controller#method"`.
