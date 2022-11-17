@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     post 'test', to: 'servers#result'
     post 'query', to: 'servers#requery'
     resources :reviews, only: [:create, :destroy, :update]
+    get '/reviews/:id/report', to: 'reviews#report'
   end
 
   scope 'login' do
@@ -20,6 +21,13 @@ Rails.application.routes.draw do
   end
   post 'registration/complete', to: 'auth#register'
   get 'logout', to: 'auth#logout'
+
+  scope 'mod' do
+    get '/', to: 'mod#index'
+    get 'reports', to: 'mod#reports'
+    get 'users', to: 'mod#users'
+    get 'log', to: 'mod#log'
+  end
 
   get 'api/v1/server/:id', to: 'api#get_server'
 end

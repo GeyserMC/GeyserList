@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html prefix="og: https://ogp.me/ns# article: https://ogp.me/ns/article#" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <meta property="og:site_name" content="GeyserList"/>
+  <meta property="og:url" content="<%= request.url %>"/>
+  <meta property="twitter:site" content="GeyserList">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <!-- Admin LTE Theme -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
+  <!-- Font Awesome (Latest) -->
+  <script src="https://kit.fontawesome.com/4ae5eef027.js"></script>
+  <!-- bootstrap-table (1.15.5) -->
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css">
+
+  <%= yield :extra_head %>
+</head>
+
+<%= render 'layouts/flash' %>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="/" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="/logout" class="nav-link">Log out</a>
+      </li>
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Navbar Search -->
+      <li class="nav-item">
+        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+          <i class="fas fa-search"></i>
+        </a>
+        <div class="navbar-search-block">
+          <form class="form-inline">
+            <div class="input-group input-group-sm">
+              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+              <div class="input-group-append">
+                <button class="btn btn-navbar" type="submit">
+                  <i class="fas fa-search"></i>
+                </button>
+                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </li>
+
+      <!-- Reports Badge -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="tooltip" title="Reports" href="/reports">
+          <i class="fas fa-ticket-alt"></i>
+          <span class="badge badge-danger navbar-badge">?</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+          <i class="fas fa-expand-arrows-alt"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="/mod" class="brand-link">
+      <%= image_tag "icon.png", alt: "Geyser Logo", class: "brand-image img-circle elevation-3", style: "opacity: .8" %>
+      <span class="brand-text font-weight-light">GeyserList Mods</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="info">
+          <a href="#" class="d-block">Welcome, <%= @user.username %>!</a>
+        </div>
+      </div>
+
+      <!-- SidebarSearch Form -->
+      <div class="form-inline">
+        <div class="input-group" data-widget="sidebar-search">
+          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+          <div class="input-group-append">
+            <button class="btn btn-sidebar">
+              <i class="fas fa-search fa-fw"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Reports -->
+          <li class="nav-item <%= 'menu-open' if request.path.include?("/report") %>">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-ticket-alt"></i>
+              <p> Reports <i class="right fas fa-angle-left"></i></p>
+            </a>
+            <ul class="nav nav-treeview">
+              <%= dropdown_item name: "Open Reports", href: "/mod/reports", fa_icon: "fas fa-comments" %>
+            </ul>
+          </li>
+
+          <li class="nav-item <%= 'menu-open' if request.path.include?("/user") %>">
+            <a href="#" class="nav-link">
+              <i class="fas fa-user"></i>
+              <p> Users <i class="right fas fa-angle-left"></i></p>
+            </a>
+            <ul class="nav nav-treeview">
+              <%= dropdown_item name: "Manage Users", href: "/mod/users", fa_icon: "fas fa-users" %>
+            </ul>
+          </li>
+
+          <!-- Extra -->
+          <% if @user.developer? %>
+            <li class="nav-item <%= 'menu-open' if request.path.include?("/stats") || request.path.include?("/log") %>">
+              <a href="#" class="nav-link">
+                <i class="fas fa-plus"></i>
+                <p> Extra <i class="right fas fa-angle-left"></i></p>
+              </a>
+              <ul class="nav nav-treeview">
+                <%= dropdown_item name: "Mod Log", href: "/mod/log", fa_icon: "fas fa-scroll" %>
+                <%= dropdown_item name: "Site Stats", href: "/mod/stats", fa_icon: "fas fa-chart-bar" %>
+              </ul>
+            </li>
+          <% end %>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+  </aside>
+  <!-- /.sidebar -->
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0"><%= yield :header %></h1>
+          </div><!-- /.col -->
+          <!--
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Starter Page</li>
+            </ol>
+          </div>--><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <%= content_for?(:body) ? yield(:body) : yield %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="float-right d-none d-sm-inline">
+      Currently <%= Time.now.strftime("%A %-m %B %Y, %I:%M %p (%Z)") %>
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; 2019-2021 GeyserMC.</strong>
+  </footer>
+  <!-- End Footer -->
+</div>
+</body>
+<!-- Jay Query -->
+<script src="https://adminlte.io/themes/v3/plugins/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+<!-- Boostrap Tables -->
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+
+<!-- Admin LTE -->
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script>
+
+<!-- Clipboard.js (2.0.0) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+</html>

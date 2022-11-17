@@ -1,0 +1,8 @@
+<section class="section">
+  <div class="container">
+    <br>
+    <h1>Reporting Review</h1>
+
+    <%= render partial: 'servers/review', locals: { review: @review, options: false, username: @review.user.username } %>
+  </div>
+</section>

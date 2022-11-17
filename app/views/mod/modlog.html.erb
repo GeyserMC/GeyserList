@@ -1,0 +1,31 @@
+<% content_for :extra_head do %>
+  <title>Mod Log - GeyserList Mods</title>
+<% end %>
+<% content_for :header do %>
+  <h1>Mog Log List</h1>
+<% end %>
+
+<div class="row">
+  <div class="col">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-columns-toggle-all="true" data-show-columns="true">
+        <thead class="thead-dark">
+        <tr>
+          <th data-sortable="true" data-field="user" data-switchable="false" data-sort-order="asc">User</th>
+          <th data-sortable="true" data-field="action" data-sort-order="desc">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @users.each do |data| %>
+          <tr>
+            <td>
+              <span style="font-size: 0;"><%= data['username'] %></span><a href="/mod/user/<%= data.id %>"><%= data['username'] %></a>
+            </td>
+            <td><%= data.action %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
