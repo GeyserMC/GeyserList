@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :user
 
   def user
-    @user = User.find(session[:id])
+    @user = User.find_by(id: session[:id])
   end
 
   def random_string(length)
