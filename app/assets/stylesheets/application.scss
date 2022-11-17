@@ -52,6 +52,37 @@ hr.small-hr {
 	}
 }
 
+body {
+	min-height: 100vh;
+	position: relative;
+	margin: 0;
+	padding-bottom: 100px; //height of the footer
+	box-sizing: border-box;
+}
+
+footer {
+	position: absolute;
+	bottom: 0;
+}
+
+@media (max-width: 405px) {
+	footer {
+		height: 100px!important;
+	}
+}
+
+@media (max-width: 576px) {
+	footer {
+		height: 75px;
+	}
+}
+
+@media (min-width: 576px) {
+	footer {
+		height: 50px;
+	}
+}
+
 .checked {
 	color: darkorange;
 }

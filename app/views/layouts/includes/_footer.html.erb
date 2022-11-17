@@ -1,2 +1,12 @@
+<footer class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-primary footer-navbar mt-auto">
+  <div class="navbar-collapse collapse show" id="navbarCollapse" style="">
+    <span class="navbar-text">
+      GeyserList @ <%= link_to Rails.cache.fetch("version/name"), Rails.cache.fetch("version/url") %>
+      &centerdot;
+      Copyright &copy; <%= link_to "GeyserList Contributors", "https://github.com/GeyserMC/GeyserList/graphs/contributors" %> 2019 - <%= Time.now.year %>
+    </span>
+  </div>
+</footer>
+
 </body>
 </html>
